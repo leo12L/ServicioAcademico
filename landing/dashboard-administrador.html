@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel — Administrador</title>
+<style>
+  :root {
+    --azul: #1d4ed8;
+    --azul-osc: #1e3a8a;
+    --gris-osc: #111827;
+    --gris-med: #4b5563;
+    --gris-claro: #f3f4f6;
+    --borde: #e5e7eb;
+    --verde: #16a34a;
+    --rojo: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--gris-claro);
+    color: var(--gris-osc);
+  }
+  header {
+    background: #fff;
+    border-bottom: 1px solid var(--borde);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header .titulo { font-weight: 700; color: var(--azul-osc); }
+  header .usuario { font-size: 0.9rem; color: var(--gris-med); }
+  header button {
+    background: none;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  main {
+    max-width: 800px;
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
+  .tarjeta {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .tarjeta h3 { margin: 0 0 2px; font-size: 1rem; }
+  .tarjeta p { margin: 0; color: var(--gris-med); font-size: 0.85rem; }
+  .acciones { display: flex; gap: 8px; }
+  .acciones button {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .btn-activar { background: var(--verde); color: #fff; }
+  .btn-rechazar { background: #fee2e2; color: var(--rojo); }
+  .vacio {
+    text-align: center;
+    color: var(--gris-med);
+    padding: 40px 20px;
+    background: #fff;
+    border: 1px dashed var(--borde);
+    border-radius: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="titulo">Panel de administrador</span>
+  <div style="display:flex; align-items:center; gap:14px;">
+    <span class="usuario" id="nombre-usuario"></span>
+    <button id="btn-salir">Cerrar sesión</button>
+  </div>
+</header>
+
+<main>
+  <h1>Lista de espera</h1>
+  <p class="subtitulo">Personas registradas pendientes de activación (pago en línea aún no validado o pago en efectivo por confirmar).</p>
+  <div id="lista-espera"></div>
+</main>
+
+<script>
+  const API_URL = "http://localhost:8080/api";
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+
+  if (!usuario || usuario.rol !== "ADMINISTRADOR") {
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("nombre-usuario").textContent = usuario.nombreCompleto;
+
+    document.getElementById("btn-salir").addEventListener("click", () => {
+      localStorage.removeItem("usuario");
+      window.location.href = "index.html";
+    });
+
+    function cargarListaEspera() {
+      fetch(`${API_URL}/usuarios/lista-espera`)
+        .then(r => r.json())
+        .then(usuarios => {
+          const contenedor = document.getElementById("lista-espera");
+          if (usuarios.length === 0) {
+            contenedor.innerHTML = '<div class="vacio">No hay nadie en lista de espera ahorita.</div>';
+            return;
+          }
+          contenedor.innerHTML = usuarios.map(u => `
+            <div class="tarjeta" data-id="${u.id}">
+              <div>
+                <h3>${u.nombreCompleto}</h3>
+                <p>${u.email}</p>
+              </div>
+              <div class="acciones">
+                <button class="btn-activar" data-id="${u.id}">Activar</button>
+                <button class="btn-rechazar" data-id="${u.id}">Rechazar</button>
+              </div>
+            </div>
+          `).join("");
+
+          contenedor.querySelectorAll(".btn-activar").forEach(btn => {
+            btn.addEventListener("click", () => cambiarEstado(btn.dataset.id, "activar"));
+          });
+          contenedor.querySelectorAll(".btn-rechazar").forEach(btn => {
+            btn.addEventListener("click", () => cambiarEstado(btn.dataset.id, "rechazar"));
+          });
+        })
+        .catch(() => {
+          document.getElementById("lista-espera").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+        });
+    }
+
+    function cambiarEstado(id, accion) {
+      fetch(`${API_URL}/usuarios/${id}/${accion}`, { method: "PATCH" })
+        .then(r => {
+          if (!r.ok) throw new Error("No se pudo actualizar");
+          cargarListaEspera();
+        })
+        .catch(() => alert("No se pudo actualizar el estado del usuario."));
+    }
+
+    cargarListaEspera();
+  }
+</script>
+
+</body>
+</html>

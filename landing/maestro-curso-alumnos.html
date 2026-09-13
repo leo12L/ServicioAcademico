@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alumnos del curso</title>
+<style>
+  :root {
+    --azul: #1d4ed8;
+    --azul-osc: #1e3a8a;
+    --gris-osc: #111827;
+    --gris-med: #4b5563;
+    --gris-claro: #f3f4f6;
+    --borde: #e5e7eb;
+    --verde: #16a34a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--gris-claro);
+    color: var(--gris-osc);
+  }
+  header {
+    background: #fff;
+    border-bottom: 1px solid var(--borde);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header .izquierda { display: flex; align-items: center; gap: 16px; }
+  header .volver { color: var(--gris-med); font-size: 0.85rem; text-decoration: none; }
+  header .titulo { font-weight: 700; color: var(--azul-osc); }
+  header .usuario { font-size: 0.9rem; color: var(--gris-med); }
+  header button {
+    background: none;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .subnav { background: #fff; border-bottom: 1px solid var(--borde); }
+  .subnav-contenido {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 24px;
+  }
+  .subnav a {
+    display: inline-block;
+    padding: 14px 0;
+    color: var(--gris-med);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    border-bottom: 2px solid transparent;
+  }
+  .subnav a.activo { color: var(--azul-osc); border-bottom-color: var(--azul); }
+
+  main {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
+
+  .caja {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+
+  .alumno-card { cursor: pointer; }
+  .alumno-fila { display: flex; justify-content: space-between; align-items: center; }
+  .alumno-fila .nombre { font-weight: 700; }
+  .alumno-fila .porcentaje { color: var(--azul-osc); font-weight: 700; }
+  .detalle-alumno { margin-top: 14px; display: none; }
+  .alumno-card.abierto .detalle-alumno { display: block; }
+  .subseccion-alumno {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--gris-med);
+    margin: 18px 0 2px;
+  }
+  .subseccion-alumno:first-child { margin-top: 0; }
+  .tema-fila {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--borde);
+    cursor: pointer;
+    user-select: none;
+  }
+  .tema-fila .check {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--borde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tema-fila.completado .check { background: var(--verde); border-color: var(--verde); }
+  .tema-fila .check svg { width: 12px; height: 12px; display: none; stroke: #fff; stroke-width: 3; }
+  .tema-fila.completado .check svg { display: block; }
+  .tema-fila span.titulo-tema { font-size: 0.92rem; }
+  .tema-fila.completado span.titulo-tema { color: var(--gris-med); text-decoration: line-through; }
+
+  .trabajo-fila {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid var(--borde);
+    flex-wrap: wrap;
+  }
+  .trabajo-fila .badge-tipo {
+    font-size: 0.66rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  .trabajo-fila .badge-tipo.TAREA { background: #eff6ff; color: var(--azul); }
+  .trabajo-fila .badge-tipo.EXAMEN { background: #fef2f2; color: #dc2626; }
+  .trabajo-fila .titulo-trabajo { font-size: 0.9rem; flex: 1; min-width: 140px; }
+  .trabajo-fila .estado-entrega { font-size: 0.78rem; white-space: nowrap; }
+  .trabajo-fila .estado-entrega.entregado { color: var(--verde); font-weight: 600; }
+  .trabajo-fila .estado-entrega.sin-entregar { color: var(--gris-med); }
+  .trabajo-fila .calificacion-input {
+    width: 60px;
+    padding: 5px 6px;
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  .trabajo-fila .btn-guardar-calif {
+    background: var(--azul);
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .trabajo-fila .btn-guardar-calif:disabled { background: #93c5fd; cursor: not-allowed; }
+
+  .vacio {
+    text-align: center;
+    color: var(--gris-med);
+    padding: 30px 20px;
+    background: #fff;
+    border: 1px dashed var(--borde);
+    border-radius: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="izquierda">
+    <a href="dashboard-maestro.html" class="volver">&larr; Mis cursos</a>
+    <span class="titulo" id="nombre-curso">Cargando...</span>
+  </div>
+  <div style="display:flex; align-items:center; gap:14px;">
+    <span class="usuario" id="nombre-usuario"></span>
+    <button id="btn-salir">Cerrar sesión</button>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-contenido">
+    <a id="tab-trabajos" href="#">Trabajos</a>
+    <a id="tab-alumnos" class="activo" href="#">Alumnos</a>
+  </div>
+</div>
+
+<main>
+  <h1>Alumnos del curso</h1>
+  <p class="subtitulo" id="descripcion-curso"></p>
+  <div id="lista-alumnos"></div>
+</main>
+
+<script>
+  const API_URL = "http://localhost:8080/api";
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+  const params = new URLSearchParams(window.location.search);
+  const cursoId = params.get("cursoId");
+
+  if (!usuario || usuario.rol !== "MAESTRO") {
+    window.location.href = "login.html";
+  } else if (!cursoId) {
+    window.location.href = "dashboard-maestro.html";
+  } else {
+    document.getElementById("nombre-usuario").textContent = usuario.nombreCompleto;
+    document.getElementById("tab-trabajos").href = `maestro-curso.html?cursoId=${cursoId}`;
+    document.getElementById("tab-alumnos").href = `maestro-curso-alumnos.html?cursoId=${cursoId}`;
+
+    document.getElementById("btn-salir").addEventListener("click", () => {
+      localStorage.removeItem("usuario");
+      window.location.href = "index.html";
+    });
+
+    fetch(`${API_URL}/cursos/${cursoId}`)
+      .then(r => r.json())
+      .then(curso => {
+        document.getElementById("nombre-curso").textContent = curso.nombre;
+        document.getElementById("descripcion-curso").textContent = `Alumnos inscritos en ${curso.nombre}.`;
+      });
+
+    function cargarAlumnos() {
+      fetch(`${API_URL}/inscripciones/curso/${cursoId}`)
+        .then(r => r.json())
+        .then(inscripciones => {
+          const contenedor = document.getElementById("lista-alumnos");
+          if (inscripciones.length === 0) {
+            contenedor.innerHTML = '<div class="vacio">Todavía no hay alumnos inscritos en este curso.</div>';
+            return;
+          }
+          contenedor.innerHTML = inscripciones.map(i => `
+            <div class="caja alumno-card" data-alumno-id="${i.alumno.id}">
+              <div class="alumno-fila">
+                <span class="nombre">${i.alumno.nombreCompleto}</span>
+                <span class="porcentaje" id="porcentaje-${i.alumno.id}">...</span>
+              </div>
+              <div class="detalle-alumno">
+                <p class="subseccion-alumno">Avance de temas</p>
+                <div class="temas-alumno" id="temas-${i.alumno.id}"></div>
+                <p class="subseccion-alumno">Trabajos y calificaciones</p>
+                <div class="trabajos-alumno" id="trabajos-${i.alumno.id}"></div>
+              </div>
+            </div>
+          `).join("");
+
+          inscripciones.forEach(i => {
+            cargarAvanceAlumno(i.alumno.id);
+            cargarTrabajosAlumno(i.alumno.id);
+          });
+
+          contenedor.querySelectorAll(".alumno-card").forEach(el => {
+            el.querySelector(".alumno-fila").addEventListener("click", () => {
+              el.classList.toggle("abierto");
+            });
+          });
+        });
+    }
+
+    function cargarAvanceAlumno(alumnoId) {
+      fetch(`${API_URL}/temas/avance?alumnoId=${alumnoId}&cursoId=${cursoId}`)
+        .then(r => r.json())
+        .then(avance => pintarAvanceAlumno(alumnoId, avance));
+    }
+
+    function pintarAvanceAlumno(alumnoId, avance) {
+      document.getElementById(`porcentaje-${alumnoId}`).textContent = `${avance.porcentaje}% (${avance.completados}/${avance.total})`;
+
+      const contenedor = document.getElementById(`temas-${alumnoId}`);
+      if (avance.temas.length === 0) {
+        contenedor.innerHTML = '<p style="color:var(--gris-med); font-size:0.88rem;">Este curso todavía no tiene temas cargados.</p>';
+        return;
+      }
+      contenedor.innerHTML = avance.temas.map(t => `
+        <div class="tema-fila ${t.completado ? "completado" : ""}" data-tema-id="${t.id}">
+          <div class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <span class="titulo-tema">${t.titulo}</span>
+        </div>
+      `).join("");
+
+      contenedor.querySelectorAll(".tema-fila").forEach(el => {
+        el.addEventListener("click", (evento) => {
+          evento.stopPropagation();
+          fetch(`${API_URL}/temas/${el.dataset.temaId}/completar?alumnoId=${alumnoId}`, { method: "PATCH" })
+            .then(r => r.json())
+            .then(nuevoAvance => pintarAvanceAlumno(alumnoId, nuevoAvance));
+        });
+      });
+    }
+
+    // ===== Trabajos y calificaciones =====
+    function cargarTrabajosAlumno(alumnoId) {
+      fetch(`${API_URL}/actividades/estado?alumnoId=${alumnoId}&cursoId=${cursoId}`)
+        .then(r => r.json())
+        .then(actividades => pintarTrabajosAlumno(alumnoId, actividades));
+    }
+
+    function pintarTrabajosAlumno(alumnoId, actividades) {
+      const contenedor = document.getElementById(`trabajos-${alumnoId}`);
+      if (actividades.length === 0) {
+        contenedor.innerHTML = '<p style="color:var(--gris-med); font-size:0.88rem;">Todavía no hay tareas ni exámenes asignados.</p>';
+        return;
+      }
+      contenedor.innerHTML = actividades.map(a => `
+        <div class="trabajo-fila" data-entrega-id="${a.entregaId || ""}">
+          <span class="badge-tipo ${a.tipo}">${a.tipo}</span>
+          <span class="titulo-trabajo">${a.titulo}</span>
+          ${a.entregado
+            ? `<span class="estado-entrega entregado">Entregado</span>
+               <input type="number" step="0.1" class="calificacion-input" value="${a.calificacion != null ? a.calificacion : ""}" placeholder="—">
+               <button type="button" class="btn-guardar-calif">Guardar</button>`
+            : `<span class="estado-entrega sin-entregar">Sin entregar</span>`}
+        </div>
+      `).join("");
+
+      contenedor.querySelectorAll(".trabajo-fila").forEach(fila => {
+        const boton = fila.querySelector(".btn-guardar-calif");
+        if (!boton) return;
+        boton.addEventListener("click", (evento) => {
+          evento.stopPropagation();
+          const entregaId = fila.dataset.entregaId;
+          const input = fila.querySelector(".calificacion-input");
+          const valor = input.value;
+          if (valor === "") return;
+
+          boton.disabled = true;
+          fetch(`${API_URL}/entregas/${entregaId}/calificar?calificacion=${valor}`, { method: "PATCH" })
+            .then(r => r.json())
+            .then(() => {
+              boton.textContent = "Guardado ✓";
+              setTimeout(() => {
+                boton.textContent = "Guardar";
+                boton.disabled = false;
+              }, 1500);
+            })
+            .catch(() => {
+              boton.disabled = false;
+            });
+        });
+      });
+    }
+
+    cargarAlumnos();
+  }
+</script>
+
+</body>
+</html>

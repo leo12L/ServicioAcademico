@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar sesión</title>
+<style>
+  :root {
+    --azul: #1d4ed8;
+    --azul-osc: #1e3a8a;
+    --gris-osc: #111827;
+    --gris-med: #4b5563;
+    --borde: #e5e7eb;
+    --rojo: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+    color: var(--gris-osc);
+  }
+  .caja {
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 20px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 0 0 4px;
+  }
+  .subtitulo {
+    text-align: center;
+    color: var(--gris-med);
+    font-size: 0.9rem;
+    margin: 0 0 24px;
+  }
+  .campo { margin-bottom: 16px; }
+  .campo label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .campo input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  button {
+    width: 100%;
+    background: var(--azul);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button:disabled { background: #93c5fd; cursor: not-allowed; }
+  #mensaje {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: none;
+  }
+  #mensaje.error { display: block; background: #fee2e2; color: var(--rojo); }
+  .volver {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: var(--gris-med);
+  }
+</style>
+</head>
+<body>
+
+<div class="caja">
+  <h1>Iniciar sesión</h1>
+  <p class="subtitulo">Entra con tu correo y contraseña</p>
+
+  <form id="form-login">
+    <div class="campo">
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" required>
+    </div>
+    <div class="campo">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" required>
+    </div>
+    <button type="submit" id="btn-login">Entrar</button>
+  </form>
+  <div id="mensaje"></div>
+  <a href="index.html" class="volver">&larr; Volver a la página principal</a>
+</div>
+
+<script>
+  const API_URL = "http://localhost:8080/api/login";
+  const form = document.getElementById("form-login");
+  const boton = document.getElementById("btn-login");
+  const mensaje = document.getElementById("mensaje");
+
+  const DASHBOARD_POR_ROL = {
+    ALUMNO: "dashboard-alumno.html",
+    MAESTRO: "dashboard-maestro.html",
+    ADMINISTRADOR: "dashboard-administrador.html"
+  };
+
+  form.addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    mensaje.className = "";
+    mensaje.textContent = "";
+    boton.disabled = true;
+    boton.textContent = "Entrando...";
+
+    const datos = {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    };
+
+    try {
+      const respuesta = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+      });
+      const cuerpo = await respuesta.json();
+
+      if (!respuesta.ok) {
+        throw new Error(cuerpo.error || "No se pudo iniciar sesión.");
+      }
+
+      localStorage.setItem("usuario", JSON.stringify(cuerpo));
+      window.location.href = DASHBOARD_POR_ROL[cuerpo.rol] || "index.html";
+    } catch (error) {
+      mensaje.className = "error";
+      mensaje.textContent = error.message;
+      boton.disabled = false;
+      boton.textContent = "Entrar";
+    }
+  });
+</script>
+
+</body>
+</html>
