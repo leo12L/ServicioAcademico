@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -27,9 +28,19 @@ public class UsuarioController {
         return usuarioService.buscarPorId(id);
     }
 
+    @GetMapping("/lista-espera")
+    public List<Usuario> listaEspera() {
+        return usuarioService.listarListaEspera();
+    }
+
+    @GetMapping("/administrador")
+    public Usuario administrador() {
+        return usuarioService.obtenerAdministrador();
+    }
+
     @PostMapping
     public Usuario crear(@Valid @RequestBody Usuario usuario) {
-        return usuarioService.guardar(usuario);
+        return usuarioService.crearPorAdmin(usuario);
     }
 
     @PutMapping("/{id}")
@@ -41,5 +52,20 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         usuarioService.eliminar(id);
+    }
+
+    @PatchMapping("/{id}/activar")
+    public Usuario activar(@PathVariable Long id) {
+        return usuarioService.activar(id);
+    }
+
+    @PatchMapping("/{id}/rechazar")
+    public Usuario rechazar(@PathVariable Long id) {
+        return usuarioService.rechazar(id);
+    }
+
+    @PatchMapping("/{id}/telefono")
+    public Usuario actualizarTelefono(@PathVariable Long id, @RequestParam String telefono) {
+        return usuarioService.actualizarTelefono(id, telefono);
     }
 }

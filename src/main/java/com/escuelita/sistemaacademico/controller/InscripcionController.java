@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/inscripciones")
+@CrossOrigin(origins = "*")
 public class InscripcionController {
 
     private final InscripcionService inscripcionService;

@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cursos")
+@CrossOrigin(origins = "*")
 public class CursoController {
 
     private final CursoService cursoService;
@@ -25,6 +26,11 @@ public class CursoController {
     @GetMapping("/{id}")
     public Curso buscarPorId(@PathVariable Long id) {
         return cursoService.buscarPorId(id);
+    }
+
+    @GetMapping("/maestro/{maestroId}")
+    public List<Curso> listarPorMaestro(@PathVariable Long maestroId) {
+        return cursoService.listarPorMaestro(maestroId);
     }
 
     @PostMapping
