@@ -78,23 +78,49 @@
   }
   .boton-salir:hover { background: var(--borde); }
 
-  main { padding-bottom: 60px; }
+  main {
+    padding-bottom: 60px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+  }
   h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
   .subtitulo { color: var(--gris-med); margin: 0 0 28px; }
 
-  /* ===== PENDIENTES (bloque principal) ===== */
-  .bloque-pendientes {
-    background: #fff;
-    border-radius: var(--radio-xl);
-    box-shadow: 0 16px 40px -26px rgba(18,20,28,0.3);
-    padding: 26px 28px 8px;
-    margin-bottom: 36px;
+  /* ===== KPIs ===== */
+  .fila-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 32px;
   }
-  .bloque-pendientes .encabezado-bloque {
+  .kpi {
+    background: #fff;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 10px 26px -20px rgba(18,20,28,0.3);
+    padding: 18px 20px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 18px;
+    gap: 14px;
+  }
+  .kpi .icono-caja { width: 42px; height: 42px; min-width: 42px; }
+  .kpi .numero { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+  .kpi .etiqueta { font-size: 0.8rem; color: var(--gris-med); font-weight: 600; }
+  .kpi-azul .icono-caja { background: var(--azul-claro); color: var(--azul); }
+  .kpi-dorado .icono-caja { background: var(--dorado-claro); color: #92720a; }
+  .kpi-verde .icono-caja { background: var(--verde-claro); color: var(--verde); }
+
+  /* ===== PENDIENTES (columna lateral) ===== */
+  h2.subseccion { font-size: 1.1rem; margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
+  .bloque-pendientes {
+    background: #fff;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 10px 26px -20px rgba(18,20,28,0.3);
+    padding: 18px 20px 6px;
   }
   .icono-caja {
     width: 42px;
@@ -107,7 +133,6 @@
     align-items: center;
     justify-content: center;
   }
-  .bloque-pendientes h2 { margin: 0; font-size: 1.15rem; }
   .contador-pendientes {
     margin-left: auto;
     background: var(--dorado);
@@ -289,27 +314,58 @@
 </div>
 
 <main class="contenedor">
-  <h1>Mi panel</h1>
-  <p class="subtitulo">Esto es lo que tienes que hacer y cómo va tu avance.</p>
+  <div class="columna-principal">
+    <h1>Mi panel</h1>
+    <p class="subtitulo">Esto es lo que tienes que hacer y cómo va tu avance.</p>
 
-  <section class="bloque-pendientes">
-    <div class="encabezado-bloque">
-      <div class="icono-caja">
-        <svg class="icono" viewBox="0 0 24 24" style="stroke:var(--azul-osc)"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <div class="fila-kpis">
+      <div class="kpi kpi-azul">
+        <div class="icono-caja">
+          <svg class="icono" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5"/></svg>
+        </div>
+        <div>
+          <div class="numero" id="kpi-cursos-activos">—</div>
+          <div class="etiqueta">Cursos activos</div>
+        </div>
       </div>
-      <h2>Pendientes</h2>
-      <span class="contador-pendientes" id="contador-pendientes" style="display:none">0</span>
+      <div class="kpi kpi-dorado">
+        <div class="icono-caja">
+          <svg class="icono" viewBox="0 0 24 24" style="stroke:#92720a"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div>
+          <div class="numero" id="kpi-tareas-pendientes">—</div>
+          <div class="etiqueta">Tareas pendientes</div>
+        </div>
+      </div>
+      <div class="kpi kpi-verde">
+        <div class="icono-caja">
+          <svg class="icono" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M6 20V10M12 20V4M18 20v-7"/></svg>
+        </div>
+        <div>
+          <div class="numero" id="kpi-progreso-promedio">—</div>
+          <div class="etiqueta">Progreso promedio</div>
+        </div>
+      </div>
     </div>
-    <div id="lista-pendientes-generales"></div>
-  </section>
 
-  <section>
-    <div class="encabezado-seccion">
-      <h2>Mis cursos</h2>
-      <a href="catalogo.html?tipo=sueltos">Ver catálogo &rarr;</a>
+    <section>
+      <div class="encabezado-seccion">
+        <h2>Mis cursos</h2>
+        <a href="catalogo.html?tipo=sueltos">Ver catálogo &rarr;</a>
+      </div>
+      <div class="grid-cursos" id="lista-cursos"></div>
+    </section>
+  </div>
+
+  <aside class="columna-lateral">
+    <h2 class="subseccion">
+      Pendientes
+      <span class="contador-pendientes" id="contador-pendientes" style="display:none">0</span>
+    </h2>
+    <div class="bloque-pendientes">
+      <div id="lista-pendientes-generales"></div>
     </div>
-    <div class="grid-cursos" id="lista-cursos"></div>
-  </section>
+  </aside>
 </main>
 
 <script>
@@ -372,6 +428,28 @@
       .then(r => r.json())
       .then(inscripciones => {
         pintarGrupoCursos("lista-cursos", inscripciones, "Todavía no tienes cursos.");
+
+        const activas = inscripciones.filter(i => i.estado === "ACTIVA");
+        document.getElementById("kpi-cursos-activos").textContent = activas.length;
+
+        if (activas.length === 0) {
+          document.getElementById("kpi-progreso-promedio").textContent = "—";
+          return;
+        }
+
+        Promise.all(activas.map(i =>
+          fetch(`${API_URL}/temas/avance?alumnoId=${usuario.id}&cursoId=${i.curso.id}`)
+            .then(r => r.json())
+            .catch(() => null)
+        )).then(avances => {
+          const validos = avances.filter(a => a && typeof a.porcentaje === "number");
+          if (validos.length === 0) {
+            document.getElementById("kpi-progreso-promedio").textContent = "—";
+            return;
+          }
+          const promedio = validos.reduce((s, a) => s + a.porcentaje, 0) / validos.length;
+          document.getElementById("kpi-progreso-promedio").textContent = `${Math.round(promedio)}%`;
+        });
       })
       .catch(() => {
         document.getElementById("lista-cursos").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
@@ -382,6 +460,7 @@
       .then(pendientes => {
         const contenedor = document.getElementById("lista-pendientes-generales");
         const contador = document.getElementById("contador-pendientes");
+        document.getElementById("kpi-tareas-pendientes").textContent = pendientes.length;
 
         if (pendientes.length === 0) {
           contenedor.innerHTML = `
@@ -426,6 +505,7 @@
       })
       .catch(() => {
         document.getElementById("lista-pendientes-generales").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+        document.getElementById("kpi-tareas-pendientes").textContent = "—";
       });
   }
 </script>
