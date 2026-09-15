@@ -8,12 +8,14 @@
   :root {
     --azul: #1d4ed8;
     --azul-osc: #1e3a8a;
+    --azul-claro: #eff6ff;
     --gris-osc: #111827;
     --gris-med: #4b5563;
     --gris-claro: #f3f4f6;
     --borde: #e5e7eb;
     --verde: #16a34a;
     --rojo: #dc2626;
+    --morado: #7c3aed;
   }
   * { box-sizing: border-box; }
   body {
@@ -40,13 +42,40 @@
     cursor: pointer;
     font-size: 0.85rem;
   }
+
+  .subnav { background: #fff; border-bottom: 1px solid var(--borde); }
+  .subnav-contenido {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+  }
+  .subnav a {
+    display: inline-block;
+    padding: 14px 0;
+    color: var(--gris-med);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .subnav a.activo { color: var(--azul-osc); border-bottom-color: var(--azul); }
+
   main {
-    max-width: 800px;
+    max-width: 900px;
     margin: 32px auto;
     padding: 0 20px;
   }
   h1 { font-size: 1.4rem; margin: 0 0 4px; }
   .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
+
+  section[data-panel] { display: none; }
+  section[data-panel].activo { display: block; }
+
   .tarjeta {
     background: #fff;
     border: 1px solid var(--borde);
@@ -61,7 +90,7 @@
   }
   .tarjeta h3 { margin: 0 0 2px; font-size: 1rem; }
   .tarjeta p { margin: 0; color: var(--gris-med); font-size: 0.85rem; }
-  .acciones { display: flex; gap: 8px; }
+  .acciones { display: flex; gap: 8px; align-items: center; }
   .acciones button {
     border: none;
     border-radius: 8px;
@@ -72,6 +101,7 @@
   }
   .btn-activar { background: var(--verde); color: #fff; }
   .btn-rechazar { background: #fee2e2; color: var(--rojo); }
+  .btn-eliminar { background: #fee2e2; color: var(--rojo); }
   .vacio {
     text-align: center;
     color: var(--gris-med);
@@ -80,6 +110,87 @@
     border: 1px dashed var(--borde);
     border-radius: 12px;
   }
+
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge.CURSO_SUELTO { background: var(--azul-claro); color: var(--azul); }
+  .badge.SECUNDARIA, .badge.PREPA_ABIERTA { background: #f3e8ff; color: var(--morado); }
+  .badge.ACTIVO, .badge.ACTIVA { background: #dcfce7; color: #166534; }
+  .badge.LISTA_ESPERA { background: #fef9c3; color: #854d0e; }
+  .badge.RECHAZADO, .badge.CANCELADA { background: #fee2e2; color: var(--rojo); }
+  .badge.FINALIZADA { background: var(--gris-claro); color: var(--gris-med); }
+
+  .form-caja {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .form-caja h3 { margin: 0 0 14px; font-size: 1rem; }
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .form-grid label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gris-med);
+    margin-bottom: 4px;
+  }
+  .form-grid input, .form-grid select {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+  .form-caja button[type="submit"] {
+    background: var(--azul);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  .form-caja button[type="submit"]:disabled { background: #93c5fd; cursor: not-allowed; }
+
+  .persona-card { cursor: pointer; }
+  .persona-fila { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .persona-fila .info { display: flex; flex-direction: column; gap: 2px; }
+  .persona-fila .nombre { font-weight: 700; }
+  .persona-fila .email { color: var(--gris-med); font-size: 0.85rem; }
+  .detalle-persona { margin-top: 14px; display: none; }
+  .persona-card.abierto .detalle-persona { display: block; }
+  .subseccion {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--gris-med);
+    margin: 0 0 8px;
+  }
+  .fila-curso-inscrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-top: 1px solid var(--borde);
+    font-size: 0.88rem;
+  }
+  .fila-curso-inscrito:first-of-type { border-top: none; }
 </style>
 </head>
 <body>
@@ -92,10 +203,75 @@
   </div>
 </header>
 
+<div class="subnav">
+  <div class="subnav-contenido">
+    <a data-tab="espera" class="activo">Lista de espera</a>
+    <a data-tab="cursos">Cursos</a>
+    <a data-tab="alumnos">Alumnos</a>
+    <a data-tab="maestros">Maestros</a>
+  </div>
+</div>
+
 <main>
-  <h1>Lista de espera</h1>
-  <p class="subtitulo">Personas registradas pendientes de activación (pago en línea aún no validado o pago en efectivo por confirmar).</p>
-  <div id="lista-espera"></div>
+
+  <section data-panel="espera" class="activo">
+    <h1>Lista de espera</h1>
+    <p class="subtitulo">Personas registradas pendientes de activación (pago en línea aún no validado o pago en efectivo por confirmar).</p>
+    <div id="lista-espera"></div>
+  </section>
+
+  <section data-panel="cursos">
+    <h1>Cursos</h1>
+    <p class="subtitulo">Todos los cursos del sistema, con su maestro asignado y alumnos inscritos.</p>
+
+    <div class="form-caja">
+      <h3>Nuevo curso</h3>
+      <form id="form-curso">
+        <div class="form-grid">
+          <div>
+            <label for="curso-nombre">Nombre</label>
+            <input type="text" id="curso-nombre" required>
+          </div>
+          <div>
+            <label for="curso-tipo">Tipo</label>
+            <select id="curso-tipo">
+              <option value="CURSO_SUELTO">Curso suelto</option>
+              <option value="SECUNDARIA">Secundaria</option>
+              <option value="PREPA_ABIERTA">Prepa abierta</option>
+            </select>
+          </div>
+          <div>
+            <label for="curso-maestro">Maestro</label>
+            <select id="curso-maestro">
+              <option value="">Sin asignar</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid" style="grid-template-columns: 1fr;">
+          <div>
+            <label for="curso-descripcion">Descripción</label>
+            <input type="text" id="curso-descripcion">
+          </div>
+        </div>
+        <button type="submit" id="btn-crear-curso">Crear curso</button>
+      </form>
+    </div>
+
+    <div id="lista-cursos"></div>
+  </section>
+
+  <section data-panel="alumnos">
+    <h1>Alumnos</h1>
+    <p class="subtitulo">Todos los alumnos registrados y a qué cursos están inscritos.</p>
+    <div id="lista-alumnos"></div>
+  </section>
+
+  <section data-panel="maestros">
+    <h1>Maestros</h1>
+    <p class="subtitulo">Todos los maestros registrados y qué cursos imparten.</p>
+    <div id="lista-maestros"></div>
+  </section>
+
 </main>
 
 <script>
@@ -112,16 +288,35 @@
       window.location.href = "index.html";
     });
 
+    // ===== Tabs =====
+    document.querySelectorAll(".subnav a").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".subnav a").forEach(t => t.classList.remove("activo"));
+        document.querySelectorAll("section[data-panel]").forEach(s => s.classList.remove("activo"));
+        tab.classList.add("activo");
+        document.querySelector(`section[data-panel="${tab.dataset.tab}"]`).classList.add("activo");
+      });
+    });
+
+    const TIPO_LABEL = { CURSO_SUELTO: "Curso suelto", SECUNDARIA: "Secundaria", PREPA_ABIERTA: "Prepa abierta" };
+    const ESTADO_LABEL = { ACTIVO: "Activo", LISTA_ESPERA: "Lista de espera", RECHAZADO: "Rechazado" };
+    const ESTADO_INSC_LABEL = { ACTIVA: "Activa", FINALIZADA: "Finalizada", CANCELADA: "Cancelada" };
+
+    let usuarios = [];
+    let cursos = [];
+    let inscripciones = [];
+
+    // ===== Lista de espera =====
     function cargarListaEspera() {
       fetch(`${API_URL}/usuarios/lista-espera`)
         .then(r => r.json())
-        .then(usuarios => {
+        .then(pendientes => {
           const contenedor = document.getElementById("lista-espera");
-          if (usuarios.length === 0) {
+          if (pendientes.length === 0) {
             contenedor.innerHTML = '<div class="vacio">No hay nadie en lista de espera ahorita.</div>';
             return;
           }
-          contenedor.innerHTML = usuarios.map(u => `
+          contenedor.innerHTML = pendientes.map(u => `
             <div class="tarjeta" data-id="${u.id}">
               <div>
                 <h3>${u.nombreCompleto}</h3>
@@ -151,11 +346,192 @@
         .then(r => {
           if (!r.ok) throw new Error("No se pudo actualizar");
           cargarListaEspera();
+          cargarTodo();
         })
         .catch(() => alert("No se pudo actualizar el estado del usuario."));
     }
 
+    // ===== Carga general (usuarios + cursos + inscripciones) =====
+    function cargarTodo() {
+      Promise.all([
+        fetch(`${API_URL}/usuarios`).then(r => r.json()),
+        fetch(`${API_URL}/cursos`).then(r => r.json()),
+        fetch(`${API_URL}/inscripciones`).then(r => r.json())
+      ]).then(([u, c, i]) => {
+        usuarios = u;
+        cursos = c;
+        inscripciones = i;
+        pintarSelectMaestros();
+        pintarCursos();
+        pintarAlumnos();
+        pintarMaestros();
+      }).catch(() => {
+        document.getElementById("lista-cursos").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+        document.getElementById("lista-alumnos").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+        document.getElementById("lista-maestros").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+      });
+    }
+
+    function pintarSelectMaestros() {
+      const select = document.getElementById("curso-maestro");
+      const maestros = usuarios.filter(u => u.rol === "MAESTRO");
+      select.innerHTML = '<option value="">Sin asignar</option>' +
+        maestros.map(m => `<option value="${m.id}">${m.nombreCompleto}</option>`).join("");
+    }
+
+    // ===== Cursos =====
+    function pintarCursos() {
+      const contenedor = document.getElementById("lista-cursos");
+      if (cursos.length === 0) {
+        contenedor.innerHTML = '<div class="vacio">Todavía no hay cursos creados.</div>';
+        return;
+      }
+      contenedor.innerHTML = cursos.map(c => {
+        const alumnosCurso = inscripciones.filter(i => i.curso.id === c.id).length;
+        return `
+          <div class="tarjeta" data-id="${c.id}">
+            <div>
+              <h3>${c.nombre} <span class="badge ${c.tipo}">${TIPO_LABEL[c.tipo] || c.tipo}</span></h3>
+              <p>${c.maestro ? "Maestro: " + c.maestro.nombreCompleto : "Sin maestro asignado"} · ${alumnosCurso} alumno${alumnosCurso === 1 ? "" : "s"} inscrito${alumnosCurso === 1 ? "" : "s"}</p>
+            </div>
+            <div class="acciones">
+              <button class="btn-eliminar" data-id="${c.id}">Eliminar</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      contenedor.querySelectorAll(".btn-eliminar").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (!confirm("¿Eliminar este curso? Esta acción no se puede deshacer.")) return;
+          fetch(`${API_URL}/cursos/${btn.dataset.id}`, { method: "DELETE" })
+            .then(r => {
+              if (!r.ok) throw new Error();
+              cargarTodo();
+            })
+            .catch(() => alert("No se pudo eliminar el curso."));
+        });
+      });
+    }
+
+    document.getElementById("form-curso").addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      const boton = document.getElementById("btn-crear-curso");
+      boton.disabled = true;
+      boton.textContent = "Creando...";
+
+      const maestroId = document.getElementById("curso-maestro").value;
+      const datos = {
+        nombre: document.getElementById("curso-nombre").value,
+        descripcion: document.getElementById("curso-descripcion").value,
+        tipo: document.getElementById("curso-tipo").value,
+        maestro: maestroId ? { id: Number(maestroId) } : null
+      };
+
+      fetch(`${API_URL}/cursos`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+      })
+        .then(r => {
+          if (!r.ok) throw new Error();
+          document.getElementById("form-curso").reset();
+          cargarTodo();
+        })
+        .catch(() => alert("No se pudo crear el curso."))
+        .finally(() => {
+          boton.disabled = false;
+          boton.textContent = "Crear curso";
+        });
+    });
+
+    // ===== Alumnos =====
+    function pintarAlumnos() {
+      const contenedor = document.getElementById("lista-alumnos");
+      const alumnos = usuarios.filter(u => u.rol === "ALUMNO");
+      if (alumnos.length === 0) {
+        contenedor.innerHTML = '<div class="vacio">Todavía no hay alumnos registrados.</div>';
+        return;
+      }
+      contenedor.innerHTML = alumnos.map(a => {
+        const susInscripciones = inscripciones.filter(i => i.alumno.id === a.id);
+        return `
+          <div class="tarjeta persona-card" data-id="${a.id}" style="display:block;">
+            <div class="persona-fila">
+              <div class="info">
+                <span class="nombre">${a.nombreCompleto}</span>
+                <span class="email">${a.email}</span>
+              </div>
+              <span class="badge ${a.estado}">${ESTADO_LABEL[a.estado] || a.estado}</span>
+            </div>
+            <div class="detalle-persona">
+              <p class="subseccion">Cursos inscritos (${susInscripciones.length})</p>
+              ${susInscripciones.length === 0
+                ? '<p style="color:var(--gris-med); font-size:0.88rem; margin:0;">No está inscrito en ningún curso todavía.</p>'
+                : susInscripciones.map(i => `
+                    <div class="fila-curso-inscrito">
+                      <span>${i.curso.nombre}</span>
+                      <span class="badge ${i.estado}">${ESTADO_INSC_LABEL[i.estado] || i.estado}</span>
+                    </div>
+                  `).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      contenedor.querySelectorAll(".persona-card").forEach(el => {
+        el.querySelector(".persona-fila").addEventListener("click", () => {
+          el.classList.toggle("abierto");
+        });
+      });
+    }
+
+    // ===== Maestros =====
+    function pintarMaestros() {
+      const contenedor = document.getElementById("lista-maestros");
+      const maestros = usuarios.filter(u => u.rol === "MAESTRO");
+      if (maestros.length === 0) {
+        contenedor.innerHTML = '<div class="vacio">Todavía no hay maestros registrados.</div>';
+        return;
+      }
+      contenedor.innerHTML = maestros.map(m => {
+        const susCursos = cursos.filter(c => c.maestro && c.maestro.id === m.id);
+        return `
+          <div class="tarjeta persona-card" data-id="${m.id}" style="display:block;">
+            <div class="persona-fila">
+              <div class="info">
+                <span class="nombre">${m.nombreCompleto}</span>
+                <span class="email">${m.email}</span>
+              </div>
+              <span class="badge ACTIVO">${susCursos.length} curso${susCursos.length === 1 ? "" : "s"}</span>
+            </div>
+            <div class="detalle-persona">
+              <p class="subseccion">Cursos que imparte</p>
+              ${susCursos.length === 0
+                ? '<p style="color:var(--gris-med); font-size:0.88rem; margin:0;">No tiene cursos asignados todavía.</p>'
+                : susCursos.map(c => {
+                    const alumnosCurso = inscripciones.filter(i => i.curso.id === c.id).length;
+                    return `
+                      <div class="fila-curso-inscrito">
+                        <span>${c.nombre} <span class="badge ${c.tipo}">${TIPO_LABEL[c.tipo] || c.tipo}</span></span>
+                        <span>${alumnosCurso} alumno${alumnosCurso === 1 ? "" : "s"}</span>
+                      </div>
+                    `;
+                  }).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      contenedor.querySelectorAll(".persona-card").forEach(el => {
+        el.querySelector(".persona-fila").addEventListener("click", () => {
+          el.classList.toggle("abierto");
+        });
+      });
+    }
+
     cargarListaEspera();
+    cargarTodo();
   }
 </script>
 
