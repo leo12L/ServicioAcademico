@@ -179,6 +179,13 @@
     font-family: inherit;
   }
   .calificacion-input:focus { outline: 2px solid var(--azul); outline-offset: 1px; }
+  .calificacion-input.invalida { outline: 2px solid var(--rojo); outline-offset: 1px; }
+  .error-calif {
+    flex-basis: 100%;
+    color: var(--rojo);
+    font-size: 0.76rem;
+    font-weight: 600;
+  }
   .btn-guardar-calif {
     background: var(--azul);
     color: #fff;
@@ -376,6 +383,14 @@
       return fecha.toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" });
     }
 
+    // Devuelve el número si es una calificación válida (0-10), o null si no lo es.
+    function calificacionValida(textoValor) {
+      if (textoValor.trim() === "") return null;
+      const valor = Number(textoValor);
+      if (Number.isNaN(valor) || valor < 0 || valor > 10) return null;
+      return valor;
+    }
+
     // ===== Cola de entregas pendientes de calificar (más antiguas primero) =====
     function cargarPendientes() {
       fetch(`${API_URL}/actividades/curso/${cursoId}`)
@@ -424,6 +439,7 @@
             </a>
             <input type="number" step="0.1" min="0" max="10" class="calificacion-input" placeholder="Nota">
             <button type="button" class="btn-guardar-calif">Guardar</button>
+            <span class="error-calif" hidden></span>
           </div>
         </div>
       `).join("");
@@ -431,9 +447,17 @@
       contenedor.querySelectorAll(".fila-pendiente").forEach(fila => {
         const boton = fila.querySelector(".btn-guardar-calif");
         const input = fila.querySelector(".calificacion-input");
+        const error = fila.querySelector(".error-calif");
         boton.addEventListener("click", () => {
-          const valor = input.value;
-          if (valor === "") return;
+          const valor = calificacionValida(input.value);
+          if (valor === null) {
+            input.classList.add("invalida");
+            error.textContent = "Ingresa una calificación entre 0 y 10.";
+            error.hidden = false;
+            return;
+          }
+          input.classList.remove("invalida");
+          error.hidden = true;
           boton.disabled = true;
           fetch(`${API_URL}/entregas/${fila.dataset.entregaId}/calificar?calificacion=${valor}`, { method: "PATCH" })
             .then(r => r.json())
@@ -544,8 +568,9 @@
           <span class="titulo-trabajo">${a.titulo}</span>
           ${a.entregado
             ? `<span class="estado-entrega entregado">Entregado</span>
-               <input type="number" step="0.1" class="calificacion-input" value="${a.calificacion != null ? a.calificacion : ""}" placeholder="—">
-               <button type="button" class="btn-guardar-calif">Guardar</button>`
+               <input type="number" step="0.1" min="0" max="10" class="calificacion-input" value="${a.calificacion != null ? a.calificacion : ""}" placeholder="—">
+               <button type="button" class="btn-guardar-calif">Guardar</button>
+               <span class="error-calif" hidden></span>`
             : `<span class="estado-entrega sin-entregar">Sin entregar</span>`}
         </div>
       `).join("");
@@ -557,8 +582,16 @@
           evento.stopPropagation();
           const entregaId = fila.dataset.entregaId;
           const input = fila.querySelector(".calificacion-input");
-          const valor = input.value;
-          if (valor === "") return;
+          const error = fila.querySelector(".error-calif");
+          const valor = calificacionValida(input.value);
+          if (valor === null) {
+            input.classList.add("invalida");
+            error.textContent = "Ingresa una calificación entre 0 y 10.";
+            error.hidden = false;
+            return;
+          }
+          input.classList.remove("invalida");
+          error.hidden = true;
 
           boton.disabled = true;
           fetch(`${API_URL}/entregas/${entregaId}/calificar?calificacion=${valor}`, { method: "PATCH" })

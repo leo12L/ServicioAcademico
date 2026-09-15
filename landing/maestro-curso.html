@@ -458,10 +458,13 @@
       });
 
     // ===== Temas =====
+    let temasActuales = [];
+
     function cargarTemas() {
       fetch(`${API_URL}/temas/curso/${cursoId}`)
         .then(r => r.json())
         .then(temas => {
+          temasActuales = temas;
           const caja = document.getElementById("caja-temas");
           const contenedor = document.getElementById("lista-temas");
           const vacio = document.getElementById("temas-vacio");
@@ -498,10 +501,11 @@
     document.getElementById("form-tema").addEventListener("submit", (evento) => {
       evento.preventDefault();
       const input = document.getElementById("tema-titulo");
+      const ordenMaximo = temasActuales.reduce((maximo, t) => Math.max(maximo, t.orden || 0), -1);
       fetch(`${API_URL}/temas`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ curso: { id: cursoId }, titulo: input.value, descripcion: "" })
+        body: JSON.stringify({ curso: { id: cursoId }, titulo: input.value, descripcion: "", orden: ordenMaximo + 1 })
       })
         .then(r => r.json())
         .then(() => {
