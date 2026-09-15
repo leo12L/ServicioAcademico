@@ -4,58 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi panel — Maestro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --azul: #1d4ed8;
-    --azul-osc: #1e3a8a;
-    --gris-osc: #111827;
-    --gris-med: #4b5563;
-    --gris-claro: #f3f4f6;
-    --borde: #e5e7eb;
+    --azul: #0012ff;
+    --azul-osc: #000872;
+    --azul-claro: #e8eaff;
+    --dorado: #ffc300;
+    --dorado-osc: #8a5a00;
+    --gris-osc: #16181f;
+    --gris-med: #6b7280;
+    --gris-claro: #f5f6fa;
+    --borde: #e6e8f0;
+    --verde: #16a34a;
+    --verde-claro: #dcfce7;
+    --rojo: #dc2626;
+    --rojo-claro: #fee2e2;
+    --dorado-claro: #fff6d9;
+    --radio-lg: 18px;
+    --radio-xl: 26px;
+    --radio-md: 12px;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--gris-claro);
     color: var(--gris-osc);
   }
-  header {
-    background: #fff;
-    border-bottom: 1px solid var(--borde);
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  header .titulo { font-weight: 700; color: var(--azul-osc); }
-  header .usuario { font-size: 0.9rem; color: var(--gris-med); }
-  header button {
-    background: none;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    font-size: 0.85rem;
-  }
-  main {
-    max-width: 1160px;
-    margin: 32px auto;
-    padding: 0 20px;
-  }
-  h1 { font-size: 1.4rem; margin: 0 0 4px; }
-  .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
+  .contenedor { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .icono { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
+  .nav-flotante {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 10px 8px 18px;
+    box-shadow: 0 10px 30px -18px rgba(18,20,28,0.25);
+  }
+  .marca { display: flex; align-items: center; gap: 10px; }
+  .marca img { width: 34px; height: 34px; border-radius: 50%; display: block; }
+  .marca-nombre { color: var(--azul-osc); font-weight: 700; font-size: 0.85rem; line-height: 1.15; }
+  .marca-nombre .rol { display: block; font-weight: 600; color: var(--gris-med); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .nav-derecha { display: flex; align-items: center; gap: 14px; }
+  .nav-derecha .usuario { font-size: 0.88rem; color: var(--gris-osc); font-weight: 600; }
+  .nav-derecha button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--azul-osc);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.84rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .nav-derecha button:hover { background: var(--azul); }
+
+  main { padding: 32px 0 60px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .subtitulo { color: var(--gris-med); margin: 0 0 28px; }
+  h2.subseccion { font-size: 1.15rem; margin: 40px 0 16px; letter-spacing: -0.01em; }
+
+  /* ===== KPIs ===== */
+  .grid-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .kpi {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-lg);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .kpi .icono-caja {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: var(--radio-md);
+    background: var(--azul-claro);
+    color: var(--azul);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .kpi.alerta .icono-caja { background: var(--dorado-claro); color: var(--dorado-osc); }
+  .kpi .icono-caja .icono { width: 22px; height: 22px; }
+  .kpi .valor { font-size: 1.6rem; font-weight: 800; line-height: 1.1; color: var(--gris-osc); }
+  .kpi .etiqueta { color: var(--gris-med); font-size: 0.85rem; font-weight: 600; margin-top: 2px; }
+  .kpi .valor.cargando { color: var(--gris-med); font-size: 1.1rem; font-weight: 600; }
+
+  /* ===== Grid cursos ===== */
   .grid-cursos {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
   }
 
   .tarjeta {
     background: #fff;
     border: 1px solid var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -63,7 +128,7 @@
     transition: box-shadow .18s ease, transform .18s ease;
   }
   .tarjeta:hover {
-    box-shadow: 0 10px 24px -8px rgba(17, 24, 39, 0.18);
+    box-shadow: 0 16px 34px -16px rgba(18,20,28,0.22);
     transform: translateY(-2px);
   }
 
@@ -77,63 +142,114 @@
   }
 
   .tarjeta .cuerpo {
-    padding: 14px 16px 18px;
+    padding: 16px 18px 20px;
     display: flex;
     flex-direction: column;
     gap: 4px;
     flex: 1;
   }
-  .tarjeta h3 { margin: 0; font-size: 1rem; line-height: 1.35; color: var(--azul-osc); }
+  .tarjeta h3 { margin: 0; font-size: 1.02rem; line-height: 1.35; color: var(--gris-osc); }
   .tarjeta .descripcion {
-    margin: 4px 0 0;
+    margin: 4px 0 10px;
     color: var(--gris-med);
-    font-size: 0.85rem;
+    font-size: 0.86rem;
     flex: 1;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  .tarjeta .pie-tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--azul);
+    font-weight: 700;
+    font-size: 0.82rem;
+  }
+  .tarjeta .pie-tarjeta .icono { width: 15px; height: 15px; }
 
   .tipo {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 12px;
+    left: 12px;
     display: inline-block;
     font-size: 0.68rem;
     font-weight: 700;
-    padding: 3px 9px;
+    padding: 4px 11px;
     border-radius: 999px;
     text-transform: uppercase;
+    letter-spacing: 0.02em;
     background: #fff;
   }
   .tipo.CURSO_SUELTO { color: var(--azul); }
-  .tipo.SECUNDARIA { color: #92400e; }
-  .tipo.PREPA_ABIERTA { color: #6d28d9; }
+  .tipo.SECUNDARIA { color: var(--dorado-osc); }
+  .tipo.PREPA_ABIERTA { color: var(--azul-osc); }
 
   .vacio {
     text-align: center;
     color: var(--gris-med);
-    padding: 40px 20px;
+    padding: 44px 20px;
     background: #fff;
     border: 1px dashed var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
   }
+  .vacio .icono { width: 30px; height: 30px; margin-bottom: 10px; color: var(--gris-med); }
 </style>
 </head>
 <body>
 
-<header>
-  <span class="titulo">Mi panel</span>
-  <div style="display:flex; align-items:center; gap:14px;">
-    <span class="usuario" id="nombre-usuario"></span>
-    <button id="btn-salir">Cerrar sesión</button>
-  </div>
-</header>
+<div class="contenedor">
+  <nav class="nav-flotante">
+    <div class="marca">
+      <img src="assets/logo-instituto.png" alt="Instituto Chihuahuense de Excelencia Académica">
+      <span class="marca-nombre">Instituto Chihuahuense<span class="rol">Panel del maestro</span></span>
+    </div>
+    <div class="nav-derecha">
+      <span class="usuario" id="nombre-usuario"></span>
+      <button id="btn-salir">
+        <svg class="icono" viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Cerrar sesión
+      </button>
+    </div>
+  </nav>
+</div>
 
-<main>
-  <h1>Mis cursos a cargo</h1>
-  <p class="subtitulo">Cursos que impartes actualmente.</p>
+<main class="contenedor">
+  <h1>Mi panel</h1>
+  <p class="subtitulo">Resumen de tus cursos, alumnos y entregas pendientes.</p>
+
+  <div class="grid-kpis" id="grid-kpis">
+    <div class="kpi">
+      <div class="icono-caja">
+        <svg class="icono" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+      </div>
+      <div>
+        <div class="valor cargando" id="kpi-cursos">…</div>
+        <div class="etiqueta">Cursos a cargo</div>
+      </div>
+    </div>
+    <div class="kpi">
+      <div class="icono-caja">
+        <svg class="icono" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <div class="valor cargando" id="kpi-alumnos">…</div>
+        <div class="etiqueta">Alumnos en tus cursos</div>
+      </div>
+    </div>
+    <div class="kpi alerta">
+      <div class="icono-caja">
+        <svg class="icono" viewBox="0 0 24 24"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 17h6M9 13h3"/></svg>
+      </div>
+      <div>
+        <div class="valor cargando" id="kpi-pendientes">…</div>
+        <div class="etiqueta">Entregas por calificar</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="subseccion">Mis cursos a cargo</h2>
   <div class="grid-cursos" id="lista-cursos"></div>
 </main>
 
@@ -154,33 +270,97 @@
     fetch(`${API_URL}/cursos/maestro/${usuario.id}`)
       .then(r => r.json())
       .then(cursos => {
-        const contenedor = document.getElementById("lista-cursos");
-        if (cursos.length === 0) {
-          contenedor.innerHTML = '<div class="vacio">Todavía no tienes cursos asignados.</div>';
-          return;
-        }
-        contenedor.innerHTML = cursos.map(c => `
-          <div class="tarjeta" data-curso-id="${c.id}">
-            <div class="miniatura-wrap">
-              <img class="miniatura" src="https://picsum.photos/seed/curso-${c.id}/400/225" alt="${c.nombre}">
-              <span class="tipo ${c.tipo}">${c.tipo.replace("_", " ")}</span>
-            </div>
-            <div class="cuerpo">
-              <h3>${c.nombre}</h3>
-              <p class="descripcion">${c.descripcion || ""}</p>
-            </div>
-          </div>
-        `).join("");
-
-        contenedor.querySelectorAll(".tarjeta").forEach(el => {
-          el.addEventListener("click", () => {
-            window.location.href = `maestro-curso.html?cursoId=${el.dataset.cursoId}`;
-          });
-        });
+        pintarCursos(cursos);
+        cargarKpis(cursos);
       })
       .catch(() => {
-        document.getElementById("lista-cursos").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+        document.getElementById("lista-cursos").innerHTML = tarjetaVacia("No se pudo conectar con el servidor.");
+        ["kpi-cursos", "kpi-alumnos", "kpi-pendientes"].forEach(id => {
+          document.getElementById(id).textContent = "—";
+        });
       });
+
+    function tarjetaVacia(texto) {
+      return `<div class="vacio">
+        <svg class="icono" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+        <div>${texto}</div>
+      </div>`;
+    }
+
+    function pintarCursos(cursos) {
+      const contenedor = document.getElementById("lista-cursos");
+      if (cursos.length === 0) {
+        contenedor.innerHTML = tarjetaVacia("Todavía no tienes cursos asignados.");
+        return;
+      }
+      contenedor.innerHTML = cursos.map(c => `
+        <div class="tarjeta" data-curso-id="${c.id}">
+          <div class="miniatura-wrap">
+            <img class="miniatura" src="https://picsum.photos/seed/curso-${c.id}/400/225" alt="${c.nombre}">
+            <span class="tipo ${c.tipo}">${c.tipo.replace("_", " ")}</span>
+          </div>
+          <div class="cuerpo">
+            <h3>${c.nombre}</h3>
+            <p class="descripcion">${c.descripcion || ""}</p>
+            <span class="pie-tarjeta">
+              Entrar al curso
+              <svg class="icono" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </div>
+      `).join("");
+
+      contenedor.querySelectorAll(".tarjeta").forEach(el => {
+        el.addEventListener("click", () => {
+          window.location.href = `maestro-curso.html?cursoId=${el.dataset.cursoId}`;
+        });
+      });
+    }
+
+    // ===== KPIs: alumnos únicos y entregas pendientes de calificar en todos los cursos =====
+    function cargarKpis(cursos) {
+      document.getElementById("kpi-cursos").textContent = cursos.length;
+      document.getElementById("kpi-cursos").classList.remove("cargando");
+
+      if (cursos.length === 0) {
+        document.getElementById("kpi-alumnos").textContent = 0;
+        document.getElementById("kpi-pendientes").textContent = 0;
+        document.getElementById("kpi-alumnos").classList.remove("cargando");
+        document.getElementById("kpi-pendientes").classList.remove("cargando");
+        return;
+      }
+
+      const alumnosUnicos = new Set();
+      let pendientes = 0;
+
+      const tareaAlumnos = Promise.all(cursos.map(c =>
+        fetch(`${API_URL}/inscripciones/curso/${c.id}`)
+          .then(r => r.json())
+          .then(inscripciones => inscripciones.forEach(i => alumnosUnicos.add(i.alumno.id)))
+          .catch(() => {})
+      ));
+
+      const tareaPendientes = Promise.all(cursos.map(c =>
+        fetch(`${API_URL}/actividades/curso/${c.id}`)
+          .then(r => r.json())
+          .then(actividades => Promise.all(actividades.map(a =>
+            fetch(`${API_URL}/actividades/${a.id}/entregas`)
+              .then(r => r.json())
+              .then(entregas => {
+                pendientes += entregas.filter(e => e.calificacion === null || e.calificacion === undefined).length;
+              })
+              .catch(() => {})
+          )))
+          .catch(() => {})
+      ));
+
+      Promise.all([tareaAlumnos, tareaPendientes]).then(() => {
+        document.getElementById("kpi-alumnos").textContent = alumnosUnicos.size;
+        document.getElementById("kpi-pendientes").textContent = pendientes;
+        document.getElementById("kpi-alumnos").classList.remove("cargando");
+        document.getElementById("kpi-pendientes").classList.remove("cargando");
+      });
+    }
   }
 </script>
 
