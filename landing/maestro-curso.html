@@ -3,83 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trabajos del curso</title>
+<title>Contenido del curso — Maestro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --azul: #1d4ed8;
-    --azul-osc: #1e3a8a;
-    --gris-osc: #111827;
-    --gris-med: #4b5563;
-    --gris-claro: #f3f4f6;
-    --borde: #e5e7eb;
+    --azul: #0012ff;
+    --azul-osc: #000872;
+    --azul-claro: #e8eaff;
+    --dorado: #ffc300;
+    --dorado-osc: #8a5a00;
+    --dorado-claro: #fff6d9;
+    --gris-osc: #16181f;
+    --gris-med: #6b7280;
+    --gris-claro: #f5f6fa;
+    --borde: #e6e8f0;
     --verde: #16a34a;
     --rojo: #dc2626;
+    --rojo-claro: #fee2e2;
+    --radio-lg: 18px;
+    --radio-xl: 26px;
+    --radio-md: 12px;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--gris-claro);
     color: var(--gris-osc);
   }
-  header {
-    background: #fff;
-    border-bottom: 1px solid var(--borde);
-    padding: 16px 24px;
+  .contenedor { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .icono { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+  .nav-flotante {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 10px 8px 10px;
+    box-shadow: 0 10px 30px -18px rgba(18,20,28,0.25);
   }
-  header .izquierda { display: flex; align-items: center; gap: 16px; }
-  header .volver { color: var(--gris-med); font-size: 0.85rem; text-decoration: none; }
-  header .titulo { font-weight: 700; color: var(--azul-osc); }
-  header .usuario { font-size: 0.9rem; color: var(--gris-med); }
-  header button {
-    background: none;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    font-size: 0.85rem;
+  .nav-izquierda { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .btn-volver {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    background: var(--gris-claro);
+    color: var(--gris-osc);
+  }
+  .btn-volver:hover { background: var(--azul-claro); color: var(--azul); }
+  .nombre-curso {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--azul-osc);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 6px;
   }
 
-  .subnav { background: #fff; border-bottom: 1px solid var(--borde); }
-  .subnav-contenido {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
+  .nav-derecha { display: flex; align-items: center; gap: 14px; }
+  .nav-derecha .usuario { font-size: 0.88rem; color: var(--gris-osc); font-weight: 600; }
+  .nav-derecha button {
     display: flex;
-    gap: 24px;
+    align-items: center;
+    gap: 6px;
+    background: var(--azul-osc);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.84rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .nav-derecha button:hover { background: var(--azul); }
+
+  /* ===== Subnav segmentado ===== */
+  .subnav-wrap { margin-top: 16px; }
+  .subnav {
+    display: inline-flex;
+    background: #fff;
+    border-radius: 999px;
+    padding: 5px;
+    gap: 4px;
+    box-shadow: 0 6px 18px -14px rgba(18,20,28,0.3);
   }
   .subnav a {
-    display: inline-block;
-    padding: 14px 0;
+    padding: 9px 20px;
     color: var(--gris-med);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.92rem;
-    border-bottom: 2px solid transparent;
+    font-weight: 700;
+    font-size: 0.86rem;
+    border-radius: 999px;
   }
-  .subnav a.activo { color: var(--azul-osc); border-bottom-color: var(--azul); }
+  .subnav a.activo { color: #fff; background: var(--azul-osc); }
 
-  main {
-    max-width: 1100px;
-    margin: 32px auto;
-    padding: 0 20px;
-  }
-  h1 { font-size: 1.4rem; margin: 0 0 4px; }
-  .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
-  h2.subseccion { font-size: 1.1rem; margin: 36px 0 14px; }
+  main { padding: 28px 0 60px; }
+  h1 { font-size: 1.45rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .subtitulo { color: var(--gris-med); margin: 0 0 20px; }
+  h2.subseccion { font-size: 1.12rem; margin: 40px 0 14px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+  h2.subseccion .icono { color: var(--azul); width: 20px; height: 20px; }
+  h2.subseccion:first-of-type { margin-top: 0; }
 
   .caja {
     background: #fff;
     border: 1px solid var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
     padding: 20px;
     margin-bottom: 14px;
   }
 
-  /* Editor de trabajo: hoja + vista previa lado a lado */
+  /* ===== Temas ===== */
+  .form-tema {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .form-tema input {
+    flex: 1;
+    min-width: 180px;
+    font-family: inherit;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-md);
+    padding: 11px 14px;
+    font-size: 0.92rem;
+  }
+  .form-tema input:focus { outline: 2px solid var(--azul); outline-offset: 1px; }
+  .form-tema button {
+    background: var(--azul);
+    color: #fff;
+    border: none;
+    padding: 11px 18px;
+    border-radius: var(--radio-md);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .form-tema button:hover { background: var(--azul-osc); }
+
+  .fila-tema {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--borde);
+  }
+  .fila-tema:first-child { border-top: none; padding-top: 0; }
+  .fila-tema .num {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border-radius: 50%;
+    background: var(--azul-claro);
+    color: var(--azul-osc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.76rem;
+    font-weight: 700;
+  }
+  .fila-tema .info { flex: 1; min-width: 0; }
+  .fila-tema .info .titulo-tema { font-weight: 600; font-size: 0.92rem; }
+  .fila-tema .info .desc-tema { color: var(--gris-med); font-size: 0.82rem; margin-top: 2px; }
+  .btn-eliminar {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--gris-med);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .btn-eliminar:hover { background: var(--rojo-claro); color: var(--rojo); }
+
+  /* ===== Editor de trabajo: hoja + vista previa lado a lado ===== */
   .editor-trabajo {
     display: flex;
     gap: 24px;
@@ -93,9 +208,9 @@
     min-width: 300px;
     background: #fff;
     border: 1px solid var(--borde);
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(17,24,39,0.05), 0 16px 32px -18px rgba(17,24,39,0.22);
-    padding: 40px 44px 32px;
+    border-radius: var(--radio-md);
+    box-shadow: 0 1px 3px rgba(17,24,39,0.05), 0 16px 32px -18px rgba(17,24,39,0.16);
+    padding: 32px 32px 26px;
   }
 
   .form-actividad { display: flex; flex-direction: column; gap: 16px; }
@@ -115,12 +230,12 @@
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 999px;
     color: var(--gris-med);
   }
   .form-actividad input#titulo {
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: var(--gris-osc);
     border-bottom: 2px solid var(--borde);
@@ -129,7 +244,7 @@
   .form-actividad input#titulo::placeholder { color: #c3c8d1; font-weight: 700; }
   .form-actividad input#titulo:focus { outline: none; border-bottom-color: var(--azul); }
   .form-actividad textarea#descripcion {
-    min-height: 280px;
+    min-height: 220px;
     resize: vertical;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 1rem;
@@ -143,12 +258,14 @@
     background: var(--azul);
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 11px 22px;
+    border-radius: var(--radio-md);
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
+    font-family: inherit;
   }
+  .form-actividad button:hover { background: var(--azul-osc); }
 
   .vista-previa { flex: 1; min-width: 240px; position: sticky; top: 20px; }
   .etiqueta-preview {
@@ -162,8 +279,8 @@
   .actividad-preview {
     background: #fff;
     border: 1px solid var(--borde);
-    border-radius: 12px;
-    padding: 16px 18px;
+    border-radius: var(--radio-lg);
+    padding: 18px 20px;
   }
   .actividad-preview h3 { margin: 8px 0 6px; font-size: 1rem; }
   .actividad-preview p {
@@ -183,6 +300,9 @@
     font-size: 0.8rem;
     max-width: 130px;
     color: var(--gris-med);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 6px 8px;
   }
   .actividad-preview .fila-entrega-preview button {
     background: var(--azul);
@@ -198,15 +318,27 @@
   .badge-tipo {
     font-size: 0.72rem;
     font-weight: 700;
-    padding: 3px 9px;
+    padding: 3px 10px;
     border-radius: 999px;
     text-transform: uppercase;
   }
-  .badge-tipo.TAREA { background: #eff6ff; color: var(--azul); }
-  .badge-tipo.EXAMEN { background: #fef2f2; color: var(--rojo); }
-  .actividad h3 { margin: 0; font-size: 1rem; }
-  .actividad p { margin: 4px 0 6px; color: var(--gris-med); font-size: 0.88rem; white-space: pre-wrap; }
-  .actividad .entregas-count { font-size: 0.8rem; color: var(--gris-med); }
+  .badge-tipo.TAREA { background: var(--azul-claro); color: var(--azul); }
+  .badge-tipo.EXAMEN { background: var(--rojo-claro); color: var(--rojo); }
+  .actividad h3 { margin: 0; font-size: 1rem; flex: 1; }
+  .actividad p { margin: 4px 0 10px; color: var(--gris-med); font-size: 0.88rem; white-space: pre-wrap; }
+  .actividad .pie-actividad { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .actividad .entregas-count { font-size: 0.82rem; color: var(--gris-med); display: flex; align-items: center; gap: 6px; }
+  .actividad .entregas-count .icono { width: 15px; height: 15px; }
+  .actividad .entregas-count.con-pendientes { color: var(--dorado-osc); font-weight: 700; }
+  .link-calificar {
+    color: var(--azul);
+    font-weight: 700;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .link-calificar .icono { width: 14px; height: 14px; }
 
   .vacio {
     text-align: center;
@@ -214,35 +346,59 @@
     padding: 30px 20px;
     background: #fff;
     border: 1px dashed var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="izquierda">
-    <a href="dashboard-maestro.html" class="volver">&larr; Mis cursos</a>
-    <span class="titulo" id="nombre-curso">Cargando...</span>
-  </div>
-  <div style="display:flex; align-items:center; gap:14px;">
-    <span class="usuario" id="nombre-usuario"></span>
-    <button id="btn-salir">Cerrar sesión</button>
-  </div>
-</header>
-
-<div class="subnav">
-  <div class="subnav-contenido">
-    <a id="tab-trabajos" class="activo" href="#">Trabajos</a>
-    <a id="tab-alumnos" href="#">Alumnos</a>
+<div class="contenedor">
+  <nav class="nav-flotante">
+    <div class="nav-izquierda">
+      <a href="dashboard-maestro.html" class="btn-volver">
+        <svg class="icono" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </a>
+      <span class="nombre-curso" id="nombre-curso">Cargando...</span>
+    </div>
+    <div class="nav-derecha">
+      <span class="usuario" id="nombre-usuario"></span>
+      <button id="btn-salir">
+        <svg class="icono" viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Cerrar sesión
+      </button>
+    </div>
+  </nav>
+  <div class="subnav-wrap">
+    <div class="subnav">
+      <a id="tab-trabajos" class="activo" href="#">Contenido</a>
+      <a id="tab-alumnos" href="#">Alumnos</a>
+    </div>
   </div>
 </div>
 
-<main>
+<main class="contenedor">
   <h1 id="titulo-curso"></h1>
   <p class="subtitulo" id="descripcion-curso"></p>
 
-  <h2 class="subseccion" style="margin-top:0;">Trabajos de la materia</h2>
+  <h2 class="subseccion">
+    <svg class="icono" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+    Temas del curso
+  </h2>
+  <div class="caja">
+    <form class="form-tema" id="form-tema">
+      <input type="text" id="tema-titulo" placeholder="Título del tema (ej. Fracciones y decimales)" required>
+      <button type="submit">Agregar tema</button>
+    </form>
+  </div>
+  <div class="caja" id="caja-temas" style="display:none;">
+    <div id="lista-temas"></div>
+  </div>
+  <div id="temas-vacio"></div>
+
+  <h2 class="subseccion" style="margin-top:44px;">
+    <svg class="icono" viewBox="0 0 24 24"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 17h6M9 13h3"/></svg>
+    Trabajos de la materia
+  </h2>
   <div class="editor-trabajo">
     <div class="hoja">
       <form class="form-actividad" id="form-actividad">
@@ -301,6 +457,59 @@
         document.getElementById("descripcion-curso").textContent = curso.descripcion || "";
       });
 
+    // ===== Temas =====
+    function cargarTemas() {
+      fetch(`${API_URL}/temas/curso/${cursoId}`)
+        .then(r => r.json())
+        .then(temas => {
+          const caja = document.getElementById("caja-temas");
+          const contenedor = document.getElementById("lista-temas");
+          const vacio = document.getElementById("temas-vacio");
+          if (temas.length === 0) {
+            caja.style.display = "none";
+            vacio.innerHTML = '<div class="vacio">Todavía no has agregado temas a este curso.</div>';
+            return;
+          }
+          vacio.innerHTML = "";
+          caja.style.display = "block";
+          contenedor.innerHTML = temas.map((t, indice) => `
+            <div class="fila-tema" data-tema-id="${t.id}">
+              <span class="num">${indice + 1}</span>
+              <div class="info">
+                <div class="titulo-tema">${t.titulo}</div>
+                ${t.descripcion ? `<div class="desc-tema">${t.descripcion}</div>` : ""}
+              </div>
+              <button type="button" class="btn-eliminar" title="Eliminar tema">
+                <svg class="icono" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+              </button>
+            </div>
+          `).join("");
+
+          contenedor.querySelectorAll(".btn-eliminar").forEach(boton => {
+            boton.addEventListener("click", () => {
+              const fila = boton.closest(".fila-tema");
+              fetch(`${API_URL}/temas/${fila.dataset.temaId}`, { method: "DELETE" })
+                .then(() => cargarTemas());
+            });
+          });
+        });
+    }
+
+    document.getElementById("form-tema").addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      const input = document.getElementById("tema-titulo");
+      fetch(`${API_URL}/temas`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ curso: { id: cursoId }, titulo: input.value, descripcion: "" })
+      })
+        .then(r => r.json())
+        .then(() => {
+          input.value = "";
+          cargarTemas();
+        });
+    });
+
     // ===== Actividades =====
     function cargarActividades() {
       fetch(`${API_URL}/actividades/curso/${cursoId}`)
@@ -312,21 +521,43 @@
             return;
           }
           contenedor.innerHTML = actividades.map(a => `
-            <div class="caja actividad">
+            <div class="caja actividad" data-actividad-id="${a.id}">
               <div class="encabezado">
                 <span class="badge-tipo ${a.tipo}">${a.tipo}</span>
                 <h3>${a.titulo}</h3>
+                <button type="button" class="btn-eliminar" title="Eliminar trabajo">
+                  <svg class="icono" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+                </button>
               </div>
               <p>${a.descripcion || ""}</p>
-              <span class="entregas-count" id="entregas-${a.id}">Consultando entregas...</span>
+              <div class="pie-actividad">
+                <span class="entregas-count" id="entregas-${a.id}">Consultando entregas...</span>
+                <a class="link-calificar" href="maestro-curso-alumnos.html?cursoId=${cursoId}">
+                  Ver y calificar entregas
+                  <svg class="icono" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </div>
             </div>
           `).join("");
+
+          contenedor.querySelectorAll(".actividad .btn-eliminar").forEach(boton => {
+            boton.addEventListener("click", () => {
+              const caja = boton.closest(".actividad");
+              fetch(`${API_URL}/actividades/${caja.dataset.actividadId}`, { method: "DELETE" })
+                .then(() => cargarActividades());
+            });
+          });
 
           actividades.forEach(a => {
             fetch(`${API_URL}/actividades/${a.id}/entregas`)
               .then(r => r.json())
               .then(entregas => {
-                document.getElementById(`entregas-${a.id}`).textContent = `${entregas.length} entrega(s) recibida(s)`;
+                const pendientes = entregas.filter(e => e.calificacion === null || e.calificacion === undefined).length;
+                const span = document.getElementById(`entregas-${a.id}`);
+                span.textContent = pendientes > 0
+                  ? `${entregas.length} entrega(s) — ${pendientes} por calificar`
+                  : `${entregas.length} entrega(s) recibida(s)`;
+                if (pendientes > 0) span.classList.add("con-pendientes");
               });
           });
         });
@@ -372,6 +603,7 @@
       document.getElementById(id).addEventListener("input", actualizarVistaPrevia);
     });
 
+    cargarTemas();
     cargarActividades();
   }
 </script>
