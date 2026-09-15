@@ -4,104 +4,131 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi curso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --azul: #1d4ed8;
-    --azul-osc: #1e3a8a;
-    --gris-osc: #111827;
-    --gris-med: #4b5563;
-    --gris-claro: #f3f4f6;
-    --borde: #e5e7eb;
+    --azul: #0012ff;
+    --azul-osc: #000872;
+    --azul-claro: #e8eaff;
+    --dorado: #ffc300;
+    --dorado-claro: #fff6da;
+    --gris-osc: #16181f;
+    --gris-med: #6b7280;
+    --gris-claro: #f5f6fa;
+    --borde: #e6e8f0;
     --verde: #16a34a;
+    --verde-claro: #dcfce7;
+    --rojo: #dc2626;
+    --rojo-claro: #fee2e2;
+    --radio-xl: 26px;
+    --radio-lg: 18px;
+    --radio-md: 12px;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--gris-claro);
     color: var(--gris-osc);
   }
-  header {
-    background: #fff;
-    border-bottom: 1px solid var(--borde);
-    padding: 16px 24px;
+  a { text-decoration: none; color: inherit; }
+  .contenedor { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .icono { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ===== NAV ===== */
+  .franja-top { background: var(--gris-claro); padding: 20px 0 26px; }
+  .nav-flotante {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 10px 8px 16px;
+    box-shadow: 0 10px 30px -18px rgba(18,20,28,0.25);
   }
-  header .izquierda { display: flex; align-items: center; gap: 16px; }
-  header .volver {
-    color: var(--gris-med);
-    font-size: 0.85rem;
-    text-decoration: none;
-  }
-  header .titulo { font-weight: 700; color: var(--azul-osc); }
-  header .usuario { font-size: 0.9rem; color: var(--gris-med); }
-  header button {
-    background: none;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    padding: 8px 14px;
+  .marca { display: flex; align-items: center; gap: 10px; }
+  .marca img { width: 32px; height: 32px; border-radius: 50%; display: block; }
+  .marca-nombre { color: var(--azul-osc); font-weight: 700; font-size: 0.86rem; line-height: 1.15; }
+
+  .nav-links { display: flex; gap: 22px; }
+  .nav-links a { color: var(--gris-med); font-weight: 600; font-size: 0.88rem; padding: 6px 0; border-bottom: 2px solid transparent; }
+  .nav-links a:hover { color: var(--azul-osc); }
+  .nav-links a.activo { color: var(--azul-osc); border-bottom-color: var(--azul); }
+
+  .nav-derecha { display: flex; align-items: center; gap: 12px; }
+  .nav-derecha .usuario { font-size: 0.86rem; font-weight: 600; color: var(--gris-med); }
+  .boton-salir {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gris-claro);
+    border: none;
+    color: var(--gris-osc);
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    font-family: inherit;
     cursor: pointer;
-    font-size: 0.85rem;
   }
+  .boton-salir:hover { background: var(--borde); }
+
+  .volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gris-med);
+    font-weight: 600;
+    font-size: 0.86rem;
+    margin-bottom: 14px;
+  }
+  .volver:hover { color: var(--azul-osc); }
+
   main {
-    width: 97%;
-    max-width: none;
-    margin: 32px auto;
-    padding: 0 20px;
+    padding-bottom: 60px;
     display: grid;
-    grid-template-columns: 1fr 380px;
+    grid-template-columns: 1fr 360px;
     gap: 28px;
     align-items: start;
   }
   @media (max-width: 900px) {
     main { grid-template-columns: 1fr; }
   }
-  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
   .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
+  h2.subseccion { font-size: 1.1rem; margin: 32px 0 14px; display: flex; align-items: center; gap: 10px; }
+  .columna-lateral h2.subseccion { margin-top: 0; }
 
   .caja-progreso {
     background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 10px 26px -20px rgba(18,20,28,0.3);
+    padding: 22px 24px;
     margin-bottom: 24px;
   }
-  .caja-progreso .fila {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
-  }
-  .caja-progreso .porcentaje { font-size: 1.3rem; font-weight: 700; color: var(--azul-osc); }
-  .barra-fondo {
-    background: var(--gris-claro);
-    border-radius: 999px;
-    height: 10px;
-    overflow: hidden;
-  }
-  .barra-relleno {
-    background: var(--verde);
-    height: 100%;
-    border-radius: 999px;
-    transition: width .25s ease;
-  }
+  .caja-progreso .fila { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .caja-progreso .porcentaje { font-size: 1.3rem; font-weight: 800; color: var(--azul-osc); }
+  .barra-fondo { background: var(--gris-claro); border-radius: 999px; height: 10px; overflow: hidden; }
+  .barra-relleno { background: var(--verde); height: 100%; border-radius: 999px; transition: width .25s ease; }
 
   .tema {
     background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 8px 20px -18px rgba(18,20,28,0.3);
     padding: 16px 18px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     display: flex;
     align-items: flex-start;
     gap: 14px;
   }
   .tema .check {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
     border-radius: 50%;
     border: 2px solid var(--borde);
     display: flex;
@@ -109,10 +136,7 @@
     justify-content: center;
     margin-top: 2px;
   }
-  .tema.completado .check {
-    background: var(--verde);
-    border-color: var(--verde);
-  }
+  .tema.completado .check { background: var(--verde); border-color: var(--verde); }
   .tema .check svg { width: 13px; height: 13px; display: none; stroke: #fff; stroke-width: 3; }
   .tema.completado .check svg { display: block; }
   .tema h3 { margin: 0 0 4px; font-size: 1rem; }
@@ -125,96 +149,140 @@
     padding: 40px 20px;
     background: #fff;
     border: 1px dashed var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
   }
-
-  h2.subseccion { font-size: 1.1rem; margin: 32px 0 14px; }
-  .columna-lateral h2.subseccion { margin-top: 0; }
 
   .actividad {
     background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 8px 20px -18px rgba(18,20,28,0.3);
     padding: 16px 18px;
     margin-bottom: 12px;
   }
-  .actividad .encabezado {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
-  }
-  .actividad .badge-tipo {
-    font-size: 0.72rem;
-    font-weight: 700;
+  .actividad .encabezado { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .badge-tipo {
+    font-size: 0.66rem;
+    font-weight: 800;
     padding: 3px 9px;
     border-radius: 999px;
     text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
-  .actividad .badge-tipo.TAREA { background: #eff6ff; color: var(--azul); }
-  .actividad .badge-tipo.EXAMEN { background: #fef2f2; color: #dc2626; }
+  .badge-tipo.TAREA { background: var(--azul-claro); color: var(--azul); }
+  .badge-tipo.EXAMEN { background: var(--rojo-claro); color: var(--rojo); }
   .actividad h3 { margin: 0; font-size: 1rem; }
   .actividad p { margin: 4px 0 12px; color: var(--gris-med); font-size: 0.88rem; white-space: pre-wrap; }
-  .fila-entrega {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .fila-entrega input[type="file"] { font-size: 0.85rem; max-width: 220px; }
+  .fila-entrega { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .fila-entrega input[type="file"] { font-size: 0.82rem; max-width: 200px; }
   .fila-entrega button {
     background: var(--azul);
     color: #fff;
     border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: var(--radio-md);
+    font-weight: 700;
     font-size: 0.85rem;
     cursor: pointer;
+    font-family: inherit;
   }
-  .fila-entrega button:disabled { background: #93c5fd; cursor: not-allowed; }
-  .fila-entrega .estado-entrega {
-    font-size: 0.82rem;
-    color: var(--rojo, #dc2626);
+  .fila-entrega button:disabled { background: #b9c0ff; cursor: not-allowed; }
+  .fila-entrega .estado-entrega { font-size: 0.82rem; color: var(--rojo); }
+
+  /* ===== CALIFICACIONES ===== */
+  .fila-calificacion {
+    background: #fff;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 8px 20px -18px rgba(18,20,28,0.3);
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .fila-calificacion .cuerpo-cal { flex: 1; min-width: 180px; }
+  .fila-calificacion .meta-fila { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+  .fila-calificacion h3 { margin: 0; font-size: 0.96rem; }
+  .badge-estado {
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge-estado.pendiente { background: var(--dorado-claro); color: #92720a; }
+  .badge-estado.entregado { background: var(--azul-claro); color: var(--azul); }
+  .badge-estado.calificado { background: var(--verde-claro); color: var(--verde); }
+  .nota {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--azul-osc);
+    min-width: 50px;
+    text-align: right;
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="izquierda">
-    <a href="dashboard-alumno.html" class="volver">&larr; Mis cursos</a>
-    <span class="titulo" id="nombre-curso">Cargando...</span>
-  </div>
-  <div style="display:flex; align-items:center; gap:14px;">
-    <span class="usuario" id="nombre-usuario"></span>
-    <button id="btn-salir">Cerrar sesión</button>
-  </div>
-</header>
-
-<main>
-  <div class="columna-principal">
-    <h1 id="titulo-curso"></h1>
-    <p class="subtitulo" id="descripcion-curso"></p>
-
-    <div class="caja-progreso">
-      <div class="fila">
-        <strong>Tu avance</strong>
-        <span class="porcentaje" id="texto-porcentaje">0%</span>
+<div class="franja-top">
+  <div class="contenedor">
+    <nav class="nav-flotante">
+      <a href="dashboard-alumno.html" class="marca">
+        <img src="assets/logo-instituto.png" alt="Instituto Chihuahuense de Excelencia Académica">
+        <span class="marca-nombre">Instituto Chihuahuense<br>de Excelencia Académica</span>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard-alumno.html">Mis cursos</a>
+        <a href="catalogo.html?tipo=sueltos">Todos los cursos</a>
+        <a href="catalogo.html?tipo=escuela">Escuela</a>
       </div>
-      <div class="barra-fondo">
-        <div class="barra-relleno" id="barra-avance" style="width:0%"></div>
+      <div class="nav-derecha">
+        <span class="usuario" id="nombre-usuario"></span>
+        <button id="btn-salir" class="boton-salir">
+          <svg class="icono" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Salir
+        </button>
       </div>
+    </nav>
+  </div>
+</div>
+
+<div class="contenedor">
+  <a href="dashboard-alumno.html" class="volver">
+    <svg class="icono" viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M15 18l-6-6 6-6"/></svg>
+    Mis cursos
+  </a>
+
+  <main>
+    <div class="columna-principal">
+      <h1 id="titulo-curso"></h1>
+      <p class="subtitulo" id="descripcion-curso"></p>
+
+      <div class="caja-progreso">
+        <div class="fila">
+          <strong>Tu avance</strong>
+          <span class="porcentaje" id="texto-porcentaje">0%</span>
+        </div>
+        <div class="barra-fondo">
+          <div class="barra-relleno" id="barra-avance" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div id="lista-temas"></div>
+
+      <h2 class="subseccion">
+        <svg class="icono" viewBox="0 0 24 24" style="stroke:var(--azul-osc)"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        Mis calificaciones
+      </h2>
+      <div id="lista-calificaciones"></div>
     </div>
 
-    <div id="lista-temas"></div>
-  </div>
-
-  <aside class="columna-lateral">
-    <h2 class="subseccion">Pendientes de la materia</h2>
-    <div id="lista-pendientes"></div>
-  </aside>
-</main>
+    <aside class="columna-lateral">
+      <h2 class="subseccion">Pendientes de la materia</h2>
+      <div id="lista-pendientes"></div>
+    </aside>
+  </main>
+</div>
 
 <script>
   const API_URL = "http://localhost:8080/api";
@@ -237,7 +305,7 @@
     fetch(`${API_URL}/cursos/${cursoId}`)
       .then(r => r.json())
       .then(curso => {
-        document.getElementById("nombre-curso").textContent = curso.nombre;
+        document.title = `${curso.nombre} — Mi curso`;
         document.getElementById("titulo-curso").textContent = curso.nombre;
         document.getElementById("descripcion-curso").textContent = curso.descripcion || "";
       });
@@ -304,6 +372,48 @@
         });
     }
 
+    function pintarCalificaciones(estados) {
+      const contenedor = document.getElementById("lista-calificaciones");
+      if (estados.length === 0) {
+        contenedor.innerHTML = '<div class="vacio">Este curso todavía no tiene tareas ni exámenes.</div>';
+        return;
+      }
+      contenedor.innerHTML = estados.map(a => {
+        let estadoClase = "pendiente";
+        let estadoTexto = "Pendiente";
+        let nota = "";
+        if (a.entregado && a.calificacion !== null && a.calificacion !== undefined) {
+          estadoClase = "calificado";
+          estadoTexto = "Calificado";
+          nota = `<span class="nota">${a.calificacion}</span>`;
+        } else if (a.entregado) {
+          estadoClase = "entregado";
+          estadoTexto = "Entregado";
+        }
+        return `
+          <div class="fila-calificacion">
+            <div class="cuerpo-cal">
+              <div class="meta-fila">
+                <span class="badge-tipo ${a.tipo}">${a.tipo}</span>
+              </div>
+              <h3>${a.titulo}</h3>
+            </div>
+            <span class="badge-estado ${estadoClase}">${estadoTexto}</span>
+            ${nota}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function cargarCalificaciones() {
+      fetch(`${API_URL}/actividades/estado?alumnoId=${usuario.id}&cursoId=${cursoId}`)
+        .then(r => r.json())
+        .then(pintarCalificaciones)
+        .catch(() => {
+          document.getElementById("lista-calificaciones").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+        });
+    }
+
     window.entregarActividad = function (actividadId) {
       const input = document.getElementById(`archivo-${actividadId}`);
       const estado = document.getElementById(`estado-${actividadId}`);
@@ -325,7 +435,10 @@
           if (!r.ok) throw new Error("No se pudo entregar.");
           return r.json();
         })
-        .then(() => cargarPendientes())
+        .then(() => {
+          cargarPendientes();
+          cargarCalificaciones();
+        })
         .catch(() => {
           estado.textContent = "Error al subir el archivo.";
         });
@@ -333,6 +446,7 @@
 
     cargarAvance();
     cargarPendientes();
+    cargarCalificaciones();
   }
 </script>
 

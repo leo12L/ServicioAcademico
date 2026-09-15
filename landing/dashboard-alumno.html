@@ -4,78 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi panel — Alumno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --azul: #1d4ed8;
-    --azul-osc: #1e3a8a;
-    --gris-osc: #111827;
-    --gris-med: #4b5563;
-    --gris-claro: #f3f4f6;
-    --borde: #e5e7eb;
+    --azul: #0012ff;
+    --azul-osc: #000872;
+    --azul-claro: #e8eaff;
+    --dorado: #ffc300;
+    --dorado-claro: #fff6da;
+    --gris-osc: #16181f;
+    --gris-med: #6b7280;
+    --gris-claro: #f5f6fa;
+    --borde: #e6e8f0;
     --verde: #16a34a;
+    --verde-claro: #dcfce7;
     --rojo: #dc2626;
+    --rojo-claro: #fee2e2;
+    --radio-xl: 26px;
+    --radio-lg: 18px;
+    --radio-md: 12px;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--gris-claro);
     color: var(--gris-osc);
   }
-  header {
-    background: #fff;
-    border-bottom: 1px solid var(--borde);
-    padding: 16px 24px;
+  a { text-decoration: none; color: inherit; }
+  .contenedor { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .icono { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ===== NAV ===== */
+  .franja-top { background: var(--gris-claro); padding: 20px 0 26px; }
+  .nav-flotante {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 10px 8px 16px;
+    box-shadow: 0 10px 30px -18px rgba(18,20,28,0.25);
   }
-  header .titulo { font-weight: 700; color: var(--azul-osc); }
-  header .usuario { font-size: 0.9rem; color: var(--gris-med); }
-  header button {
-    background: none;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    padding: 8px 14px;
+  .marca { display: flex; align-items: center; gap: 10px; }
+  .marca img { width: 32px; height: 32px; border-radius: 50%; display: block; }
+  .marca-nombre { color: var(--azul-osc); font-weight: 700; font-size: 0.86rem; line-height: 1.15; }
+  .marca-nombre .ocultar-chico { display: inline; }
+
+  .nav-links { display: flex; gap: 22px; }
+  .nav-links a { color: var(--gris-med); font-weight: 600; font-size: 0.88rem; padding: 6px 0; border-bottom: 2px solid transparent; }
+  .nav-links a:hover { color: var(--azul-osc); }
+  .nav-links a.activo { color: var(--azul-osc); border-bottom-color: var(--azul); }
+
+  .nav-derecha { display: flex; align-items: center; gap: 12px; }
+  .nav-derecha .usuario { font-size: 0.86rem; font-weight: 600; color: var(--gris-med); }
+  .boton-salir {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gris-claro);
+    border: none;
+    color: var(--gris-osc);
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    font-family: inherit;
     cursor: pointer;
+  }
+  .boton-salir:hover { background: var(--borde); }
+
+  main { padding-bottom: 60px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .subtitulo { color: var(--gris-med); margin: 0 0 28px; }
+
+  /* ===== PENDIENTES (bloque principal) ===== */
+  .bloque-pendientes {
+    background: #fff;
+    border-radius: var(--radio-xl);
+    box-shadow: 0 16px 40px -26px rgba(18,20,28,0.3);
+    padding: 26px 28px 8px;
+    margin-bottom: 36px;
+  }
+  .bloque-pendientes .encabezado-bloque {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .icono-caja {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: var(--radio-md);
+    background: var(--dorado-claro);
+    color: var(--azul-osc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bloque-pendientes h2 { margin: 0; font-size: 1.15rem; }
+  .contador-pendientes {
+    margin-left: auto;
+    background: var(--dorado);
+    color: var(--azul-osc);
+    font-weight: 800;
     font-size: 0.85rem;
+    padding: 4px 12px;
+    border-radius: 999px;
   }
-  header .izquierda { display: flex; align-items: center; gap: 28px; }
-  nav.menu { display: flex; gap: 22px; }
-  nav.menu a {
+
+  .fila-pendiente {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 4px;
+    border-top: 1px solid var(--borde);
+    cursor: pointer;
+    transition: background .15s ease;
+    border-radius: var(--radio-md);
+  }
+  .fila-pendiente:hover { background: var(--gris-claro); }
+  .fila-pendiente .icono-tipo {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: var(--radio-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fila-pendiente .icono-tipo.TAREA { background: var(--azul-claro); color: var(--azul); }
+  .fila-pendiente .icono-tipo.EXAMEN { background: var(--rojo-claro); color: var(--rojo); }
+  .fila-pendiente .cuerpo-fila { flex: 1; min-width: 0; }
+  .fila-pendiente .meta-fila { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; flex-wrap: wrap; }
+  .badge-tipo {
+    font-size: 0.66rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .badge-tipo.TAREA { background: var(--azul-claro); color: var(--azul); }
+  .badge-tipo.EXAMEN { background: var(--rojo-claro); color: var(--rojo); }
+  .fila-pendiente .curso-nombre { font-size: 0.78rem; color: var(--gris-med); font-weight: 600; }
+  .fila-pendiente h3 { margin: 0; font-size: 0.98rem; }
+  .fila-pendiente p {
+    margin: 2px 0 0;
     color: var(--gris-med);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
+    font-size: 0.84rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  nav.menu a.activo { color: var(--azul-osc); border-bottom-color: var(--azul); }
-  main {
-    width: 97%;
-    max-width: none;
-    margin: 32px auto;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 28px;
-    align-items: start;
+  .fila-pendiente .flecha { color: var(--gris-med); min-width: 18px; }
+
+  .al-dia {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 4px 26px;
   }
-  @media (max-width: 900px) {
-    main { grid-template-columns: 1fr; }
-  }
-  h1 { font-size: 1.4rem; margin: 0 0 4px; }
-  h2.subseccion { font-size: 1.1rem; margin: 0 0 14px; }
-  .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
+  .al-dia .icono-caja { background: var(--verde-claro); color: var(--verde); }
+  .al-dia h3 { margin: 0 0 2px; font-size: 1rem; }
+  .al-dia p { margin: 0; color: var(--gris-med); font-size: 0.88rem; }
+
+  /* ===== MIS CURSOS ===== */
+  .encabezado-seccion { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+  .encabezado-seccion h2 { margin: 0; font-size: 1.15rem; }
+  .encabezado-seccion a { color: var(--azul); font-weight: 700; font-size: 0.86rem; }
+
   .grid-cursos {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
   }
   .tarjeta {
     background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 10px 26px -20px rgba(18,20,28,0.3);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -83,8 +195,8 @@
     transition: box-shadow .18s ease, transform .18s ease;
   }
   .tarjeta:hover {
-    box-shadow: 0 10px 24px -8px rgba(17, 24, 39, 0.18);
-    transform: translateY(-2px);
+    box-shadow: 0 18px 36px -18px rgba(18,20,28,0.28);
+    transform: translateY(-3px);
   }
   .tarjeta .miniatura-wrap { position: relative; }
   .tarjeta .miniatura {
@@ -94,13 +206,7 @@
     display: block;
     background: var(--gris-claro);
   }
-  .tarjeta .cuerpo {
-    padding: 14px 16px 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-  }
+  .tarjeta .cuerpo { padding: 16px 18px 8px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
   .tarjeta h3 { margin: 0; font-size: 1rem; line-height: 1.35; }
   .tarjeta .descripcion {
     margin: 4px 0 0;
@@ -112,111 +218,98 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .progreso-mini { display: flex; align-items: center; gap: 10px; padding: 10px 16px 16px; }
-  .barra-fondo-mini {
-    flex: 1;
-    background: var(--gris-claro);
-    border-radius: 999px;
-    height: 8px;
-    overflow: hidden;
-  }
-  .barra-relleno-mini {
-    background: var(--verde);
-    height: 100%;
-    border-radius: 999px;
-    transition: width .25s ease;
-  }
-  .texto-mini {
-    font-size: 0.78rem;
-    color: var(--gris-med);
-    min-width: 70px;
-    text-align: right;
-  }
+  .progreso-mini { display: flex; align-items: center; gap: 10px; padding: 12px 18px 18px; }
+  .barra-fondo-mini { flex: 1; background: var(--gris-claro); border-radius: 999px; height: 8px; overflow: hidden; }
+  .barra-relleno-mini { background: var(--verde); height: 100%; border-radius: 999px; transition: width .25s ease; }
+  .texto-mini { font-size: 0.78rem; color: var(--gris-med); font-weight: 700; min-width: 40px; text-align: right; }
+
   .etiqueta {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 0.68rem;
-    font-weight: 700;
-    padding: 3px 9px;
+    top: 12px;
+    left: 12px;
+    font-size: 0.66rem;
+    font-weight: 800;
+    padding: 4px 10px;
     border-radius: 999px;
     text-transform: uppercase;
+    background: #fff;
   }
-  .etiqueta.ACTIVA { background: #dcfce7; color: var(--verde); }
-  .etiqueta.FINALIZADA { background: #dbeafe; color: var(--azul-osc); }
-  .etiqueta.CANCELADA { background: #fee2e2; color: #dc2626; }
+  .etiqueta.ACTIVA { color: var(--verde); }
+  .etiqueta.FINALIZADA { color: var(--azul); }
+  .etiqueta.CANCELADA { color: var(--rojo); }
+
   .vacio {
     text-align: center;
     color: var(--gris-med);
-    padding: 40px 20px;
+    padding: 44px 24px;
     background: #fff;
     border: 1px dashed var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
+  }
+  .vacio .boton-principal {
+    display: inline-flex;
+    margin-top: 16px;
+    background: var(--azul);
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: var(--radio-md);
+    font-weight: 700;
+    font-size: 0.9rem;
   }
 
-  .actividad-general {
-    background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: border-color .15s ease;
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .marca-nombre { max-width: 150px; }
   }
-  .actividad-general:hover { border-color: var(--azul); }
-  .actividad-general .encabezado {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-    flex-wrap: wrap;
-  }
-  .badge-tipo {
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 999px;
-    text-transform: uppercase;
-  }
-  .badge-tipo.TAREA { background: #eff6ff; color: var(--azul); }
-  .badge-tipo.EXAMEN { background: #fef2f2; color: var(--rojo); }
-  .actividad-general .curso-nombre {
-    font-size: 0.75rem;
-    color: var(--gris-med);
-    font-weight: 600;
-  }
-  .actividad-general h3 { margin: 0 0 4px; font-size: 0.95rem; }
-  .actividad-general p { margin: 0; color: var(--gris-med); font-size: 0.85rem; }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="izquierda">
-    <span class="titulo">Mi panel</span>
-    <nav class="menu">
-      <a href="dashboard-alumno.html" class="activo">Mis cursos</a>
-      <a href="catalogo.html?tipo=sueltos">Todos los cursos</a>
-      <a href="catalogo.html?tipo=escuela">Escuela</a>
+<div class="franja-top">
+  <div class="contenedor">
+    <nav class="nav-flotante">
+      <a href="dashboard-alumno.html" class="marca">
+        <img src="assets/logo-instituto.png" alt="Instituto Chihuahuense de Excelencia Académica">
+        <span class="marca-nombre">Instituto Chihuahuense<br>de Excelencia Académica</span>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard-alumno.html" class="activo">Mis cursos</a>
+        <a href="catalogo.html?tipo=sueltos">Todos los cursos</a>
+        <a href="catalogo.html?tipo=escuela">Escuela</a>
+      </div>
+      <div class="nav-derecha">
+        <span class="usuario" id="nombre-usuario"></span>
+        <button id="btn-salir" class="boton-salir">
+          <svg class="icono" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Salir
+        </button>
+      </div>
     </nav>
   </div>
-  <div style="display:flex; align-items:center; gap:14px;">
-    <span class="usuario" id="nombre-usuario"></span>
-    <button id="btn-salir">Cerrar sesión</button>
-  </div>
-</header>
+</div>
 
-<main>
-  <div class="columna-principal">
-    <h1>Mis cursos</h1>
-    <p class="subtitulo">Cursos en los que estás inscrito.</p>
-    <div class="grid-cursos" id="lista-cursos"></div>
-  </div>
+<main class="contenedor">
+  <h1>Mi panel</h1>
+  <p class="subtitulo">Esto es lo que tienes que hacer y cómo va tu avance.</p>
 
-  <aside class="columna-lateral">
-    <h2 class="subseccion">Pendientes (todas las materias)</h2>
+  <section class="bloque-pendientes">
+    <div class="encabezado-bloque">
+      <div class="icono-caja">
+        <svg class="icono" viewBox="0 0 24 24" style="stroke:var(--azul-osc)"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <h2>Pendientes</h2>
+      <span class="contador-pendientes" id="contador-pendientes" style="display:none">0</span>
+    </div>
     <div id="lista-pendientes-generales"></div>
-  </aside>
+  </section>
+
+  <section>
+    <div class="encabezado-seccion">
+      <h2>Mis cursos</h2>
+      <a href="catalogo.html?tipo=sueltos">Ver catálogo &rarr;</a>
+    </div>
+    <div class="grid-cursos" id="lista-cursos"></div>
+  </section>
 </main>
 
 <script>
@@ -236,7 +329,7 @@
     function pintarGrupoCursos(contenedorId, inscripciones, mensajeVacio) {
       const contenedor = document.getElementById(contenedorId);
       if (inscripciones.length === 0) {
-        contenedor.innerHTML = `<div class="vacio">${mensajeVacio}</div>`;
+        contenedor.innerHTML = `<div class="vacio">${mensajeVacio}<br><a class="boton-principal" href="catalogo.html?tipo=sueltos">Explorar cursos</a></div>`;
         return;
       }
       contenedor.innerHTML = inscripciones.map(i => `
@@ -267,7 +360,7 @@
           .then(r => r.json())
           .then(avance => {
             document.getElementById(`barra-${i.curso.id}`).style.width = `${avance.porcentaje}%`;
-            document.getElementById(`texto-${i.curso.id}`).textContent = `${avance.porcentaje}% (${avance.completados}/${avance.total})`;
+            document.getElementById(`texto-${i.curso.id}`).textContent = `${avance.porcentaje}%`;
           })
           .catch(() => {
             document.getElementById(`texto-${i.curso.id}`).textContent = "Sin datos";
@@ -278,7 +371,7 @@
     fetch(`${API_URL}/inscripciones/alumno/${usuario.id}`)
       .then(r => r.json())
       .then(inscripciones => {
-        pintarGrupoCursos("lista-cursos", inscripciones, "Todavía no tienes cursos. Ve a \"Todos los cursos\" o \"Escuela\" para inscribirte.");
+        pintarGrupoCursos("lista-cursos", inscripciones, "Todavía no tienes cursos.");
       })
       .catch(() => {
         document.getElementById("lista-cursos").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
@@ -288,22 +381,44 @@
       .then(r => r.json())
       .then(pendientes => {
         const contenedor = document.getElementById("lista-pendientes-generales");
+        const contador = document.getElementById("contador-pendientes");
+
         if (pendientes.length === 0) {
-          contenedor.innerHTML = '<div class="vacio">No tienes tareas ni exámenes pendientes.</div>';
+          contenedor.innerHTML = `
+            <div class="al-dia">
+              <div class="icono-caja">
+                <svg class="icono" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+              </div>
+              <div>
+                <h3>¡Estás al día!</h3>
+                <p>No tienes tareas ni exámenes pendientes.</p>
+              </div>
+            </div>`;
           return;
         }
+
+        contador.style.display = "inline-block";
+        contador.textContent = pendientes.length;
+
+        const iconoTarea = '<svg class="icono" viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h2"/><path d="M14 3H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7l-4-4Z"/><path d="M14 3v4h4"/></svg>';
+        const iconoExamen = '<svg class="icono" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 12.5l1.8 1.8 3.2-4"/></svg>';
+
         contenedor.innerHTML = pendientes.map(a => `
-          <div class="actividad-general" data-curso-id="${a.curso.id}">
-            <div class="encabezado">
-              <span class="badge-tipo ${a.tipo}">${a.tipo}</span>
-              <span class="curso-nombre">${a.curso.nombre}</span>
+          <div class="fila-pendiente" data-curso-id="${a.curso.id}">
+            <div class="icono-tipo ${a.tipo}">${a.tipo === "EXAMEN" ? iconoExamen : iconoTarea}</div>
+            <div class="cuerpo-fila">
+              <div class="meta-fila">
+                <span class="badge-tipo ${a.tipo}">${a.tipo}</span>
+                <span class="curso-nombre">${a.curso.nombre}</span>
+              </div>
+              <h3>${a.titulo}</h3>
+              <p>${a.descripcion || ""}</p>
             </div>
-            <h3>${a.titulo}</h3>
-            <p>${a.descripcion || ""}</p>
+            <svg class="icono flecha" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
           </div>
         `).join("");
 
-        contenedor.querySelectorAll(".actividad-general").forEach(el => {
+        contenedor.querySelectorAll(".fila-pendiente").forEach(el => {
           el.addEventListener("click", () => {
             window.location.href = `curso.html?cursoId=${el.dataset.cursoId}`;
           });
