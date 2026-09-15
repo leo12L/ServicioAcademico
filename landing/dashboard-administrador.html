@@ -4,82 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel — Administrador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --azul: #1d4ed8;
-    --azul-osc: #1e3a8a;
-    --azul-claro: #eff6ff;
-    --gris-osc: #111827;
-    --gris-med: #4b5563;
-    --gris-claro: #f3f4f6;
-    --borde: #e5e7eb;
+    --azul: #0012ff;
+    --azul-osc: #000872;
+    --azul-claro: #e8eaff;
+    --dorado: #ffc300;
+    --gris-osc: #16181f;
+    --gris-med: #6b7280;
+    --gris-claro: #f5f6fa;
+    --borde: #e6e8f0;
     --verde: #16a34a;
     --rojo: #dc2626;
-    --morado: #7c3aed;
+    --radio-lg: 18px;
+    --radio-xl: 26px;
+    --radio-md: 12px;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--gris-claro);
     color: var(--gris-osc);
   }
-  header {
-    background: #fff;
-    border-bottom: 1px solid var(--borde);
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  header .titulo { font-weight: 700; color: var(--azul-osc); }
-  header .usuario { font-size: 0.9rem; color: var(--gris-med); }
-  header button {
-    background: none;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    font-size: 0.85rem;
-  }
+  .icono { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 
-  .subnav { background: #fff; border-bottom: 1px solid var(--borde); }
-  .subnav-contenido {
-    max-width: 900px;
+  /* ===== NAV FLOTANTE ===== */
+  .barra-superior { padding: 20px 20px 0; }
+  .nav-flotante {
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 0 20px;
     display: flex;
-    gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 8px 8px 18px;
+    box-shadow: 0 10px 30px -18px rgba(18,20,28,0.25);
+  }
+  .marca { display: flex; align-items: center; gap: 10px; }
+  .marca img { width: 34px; height: 34px; border-radius: 50%; display: block; }
+  .marca-texto { display: flex; flex-direction: column; line-height: 1.2; }
+  .marca-texto .nombre { font-weight: 700; font-size: 0.85rem; color: var(--azul-osc); }
+  .marca-texto .rol { font-size: 0.72rem; color: var(--gris-med); font-weight: 600; }
+  .nav-derecha { display: flex; align-items: center; gap: 14px; }
+  .usuario-actual { font-size: 0.85rem; color: var(--gris-med); font-weight: 600; }
+  .btn-salir {
+    background: var(--gris-claro);
+    border: none;
+    border-radius: 999px;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--gris-osc);
+  }
+  .btn-salir:hover { background: var(--borde); }
+
+  /* ===== SUBNAV TABS ===== */
+  .subnav { margin: 18px 0 0; }
+  .subnav-contenido {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    gap: 6px;
     overflow-x: auto;
+    background: #fff;
+    border-radius: 999px;
+    padding: 6px;
+    box-shadow: 0 10px 30px -20px rgba(18,20,28,0.2);
+    width: fit-content;
   }
   .subnav a {
-    display: inline-block;
-    padding: 14px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
     color: var(--gris-med);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.92rem;
-    border-bottom: 2px solid transparent;
+    font-weight: 700;
+    font-size: 0.87rem;
     white-space: nowrap;
     cursor: pointer;
+    border-radius: 999px;
   }
-  .subnav a.activo { color: var(--azul-osc); border-bottom-color: var(--azul); }
+  .subnav a.activo { color: #fff; background: var(--azul); }
 
-  main {
-    max-width: 900px;
-    margin: 32px auto;
-    padding: 0 20px;
-  }
-  h1 { font-size: 1.4rem; margin: 0 0 4px; }
-  .subtitulo { color: var(--gris-med); margin: 0 0 24px; }
+  main { max-width: 1080px; margin: 28px auto 60px; padding: 0 20px; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .subtitulo { color: var(--gris-med); margin: 0 0 22px; font-size: 0.94rem; }
 
   section[data-panel] { display: none; }
   section[data-panel].activo { display: block; }
 
+  /* ===== KPIs ===== */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .kpi {
+    background: #fff;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 10px 30px -22px rgba(18,20,28,0.35);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .kpi .icono-caja {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .kpi.alumnos .icono-caja { background: var(--azul-claro); color: var(--azul); }
+  .kpi.maestros .icono-caja { background: #f3e8ff; color: #7c3aed; }
+  .kpi.cursos .icono-caja { background: #dcfce7; color: var(--verde); }
+  .kpi.espera .icono-caja { background: #fef3c7; color: #92700a; }
+  .kpi .valor { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+  .kpi .etiqueta { font-size: 0.8rem; color: var(--gris-med); font-weight: 600; }
+
+  /* ===== CARDS ===== */
   .tarjeta {
     background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 10px 30px -24px rgba(18,20,28,0.4);
     padding: 18px 20px;
     margin-bottom: 12px;
     display: flex;
@@ -93,47 +154,54 @@
   .acciones { display: flex; gap: 8px; align-items: center; }
   .acciones button {
     border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
+    border-radius: 999px;
+    padding: 9px 18px;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.83rem;
     cursor: pointer;
+    font-family: inherit;
   }
   .btn-activar { background: var(--verde); color: #fff; }
   .btn-rechazar { background: #fee2e2; color: var(--rojo); }
   .btn-eliminar { background: #fee2e2; color: var(--rojo); }
+  .btn-secundario { background: var(--gris-claro); color: var(--gris-osc); }
+  .btn-primario { background: var(--azul); color: #fff; }
   .vacio {
     text-align: center;
     color: var(--gris-med);
-    padding: 40px 20px;
+    padding: 44px 20px;
     background: #fff;
-    border: 1px dashed var(--borde);
-    border-radius: 12px;
+    border: 1.5px dashed var(--borde);
+    border-radius: var(--radio-lg);
+    font-size: 0.92rem;
   }
 
   .badge {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    padding: 3px 9px;
+    padding: 4px 10px;
     border-radius: 999px;
     text-transform: uppercase;
     white-space: nowrap;
+    letter-spacing: 0.02em;
   }
   .badge.CURSO_SUELTO { background: var(--azul-claro); color: var(--azul); }
-  .badge.SECUNDARIA, .badge.PREPA_ABIERTA { background: #f3e8ff; color: var(--morado); }
+  .badge.SECUNDARIA, .badge.PREPA_ABIERTA { background: #f3e8ff; color: #7c3aed; }
   .badge.ACTIVO, .badge.ACTIVA { background: #dcfce7; color: #166534; }
-  .badge.LISTA_ESPERA { background: #fef9c3; color: #854d0e; }
+  .badge.LISTA_ESPERA { background: #fef3c7; color: #92700a; }
   .badge.RECHAZADO, .badge.CANCELADA { background: #fee2e2; color: var(--rojo); }
   .badge.FINALIZADA { background: var(--gris-claro); color: var(--gris-med); }
 
+  /* ===== FORM CAJA ===== */
   .form-caja {
     background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
+    border-radius: var(--radio-lg);
+    box-shadow: 0 10px 30px -24px rgba(18,20,28,0.4);
+    padding: 22px;
+    margin-bottom: 22px;
   }
-  .form-caja h3 { margin: 0 0 14px; font-size: 1rem; }
+  .form-caja h3 { margin: 0 0 14px; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+  .form-caja h3 .icono { color: var(--azul); }
   .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -143,31 +211,58 @@
   .form-grid label {
     display: block;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--gris-med);
-    margin-bottom: 4px;
+    margin-bottom: 5px;
   }
   .form-grid input, .form-grid select {
     width: 100%;
-    padding: 9px 10px;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio-md);
     font-size: 0.9rem;
     font-family: inherit;
+    background: #fff;
   }
+  .form-grid input:focus, .form-grid select:focus { outline: 2px solid var(--azul); outline-offset: 1px; }
   .form-caja button[type="submit"] {
     background: var(--azul);
     color: #fff;
     border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
+    padding: 11px 20px;
+    border-radius: 999px;
     font-weight: 700;
     font-size: 0.88rem;
     cursor: pointer;
+    font-family: inherit;
   }
-  .form-caja button[type="submit"]:disabled { background: #93c5fd; cursor: not-allowed; }
+  .form-caja button[type="submit"]:disabled { background: #b9bfff; cursor: not-allowed; }
 
-  .persona-card { cursor: pointer; }
+  /* ===== BUSCADOR ===== */
+  .buscador {
+    position: relative;
+    margin-bottom: 16px;
+    max-width: 360px;
+  }
+  .buscador .icono {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gris-med);
+  }
+  .buscador input {
+    width: 100%;
+    padding: 11px 14px 11px 40px;
+    border: 1.5px solid var(--borde);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: #fff;
+  }
+  .buscador input:focus { outline: 2px solid var(--azul); outline-offset: 1px; }
+
+  .persona-card { cursor: pointer; display: block; }
   .persona-fila { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
   .persona-fila .info { display: flex; flex-direction: column; gap: 2px; }
   .persona-fila .nombre { font-weight: 700; }
@@ -175,10 +270,10 @@
   .detalle-persona { margin-top: 14px; display: none; }
   .persona-card.abierto .detalle-persona { display: block; }
   .subseccion {
-    font-size: 0.75rem;
+    font-size: 0.73rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     color: var(--gris-med);
     margin: 0 0 8px;
   }
@@ -186,33 +281,73 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
+    padding: 9px 0;
     border-top: 1px solid var(--borde);
     font-size: 0.88rem;
   }
   .fila-curso-inscrito:first-of-type { border-top: none; }
+
+  /* ===== INSCRIPCIONES ===== */
+  .fila-inscripcion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .fila-inscripcion .datos { display: flex; flex-direction: column; gap: 3px; }
+  .fila-inscripcion .datos .principal { font-weight: 700; font-size: 0.94rem; }
+  .fila-inscripcion .datos .secundario { color: var(--gris-med); font-size: 0.84rem; }
 </style>
 </head>
 <body>
 
-<header>
-  <span class="titulo">Panel de administrador</span>
-  <div style="display:flex; align-items:center; gap:14px;">
-    <span class="usuario" id="nombre-usuario"></span>
-    <button id="btn-salir">Cerrar sesión</button>
-  </div>
-</header>
+<div class="barra-superior">
+  <nav class="nav-flotante">
+    <div class="marca">
+      <img src="assets/logo-instituto.png" alt="Instituto Chihuahuense de Excelencia Académica">
+      <div class="marca-texto">
+        <span class="nombre">Panel de administrador</span>
+        <span class="rol">Instituto Chihuahuense de Excelencia Académica</span>
+      </div>
+    </div>
+    <div class="nav-derecha">
+      <span class="usuario-actual" id="nombre-usuario"></span>
+      <button class="btn-salir" id="btn-salir">Cerrar sesión</button>
+    </div>
+  </nav>
+</div>
 
 <div class="subnav">
   <div class="subnav-contenido">
     <a data-tab="espera" class="activo">Lista de espera</a>
     <a data-tab="cursos">Cursos</a>
+    <a data-tab="inscripciones">Inscripciones</a>
     <a data-tab="alumnos">Alumnos</a>
     <a data-tab="maestros">Maestros</a>
   </div>
 </div>
 
 <main>
+
+  <div class="kpis">
+    <div class="kpi alumnos">
+      <div class="icono-caja"><svg class="icono" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div><div class="valor" id="kpi-alumnos">—</div><div class="etiqueta">Alumnos activos</div></div>
+    </div>
+    <div class="kpi maestros">
+      <div class="icono-caja"><svg class="icono" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5"/></svg></div>
+      <div><div class="valor" id="kpi-maestros">—</div><div class="etiqueta">Maestros</div></div>
+    </div>
+    <div class="kpi cursos">
+      <div class="icono-caja"><svg class="icono" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+      <div><div class="valor" id="kpi-cursos">—</div><div class="etiqueta">Cursos activos</div></div>
+    </div>
+    <div class="kpi espera">
+      <div class="icono-caja"><svg class="icono" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <div><div class="valor" id="kpi-espera">—</div><div class="etiqueta">En lista de espera</div></div>
+    </div>
+  </div>
 
   <section data-panel="espera" class="activo">
     <h1>Lista de espera</h1>
@@ -225,7 +360,7 @@
     <p class="subtitulo">Todos los cursos del sistema, con su maestro asignado y alumnos inscritos.</p>
 
     <div class="form-caja">
-      <h3>Nuevo curso</h3>
+      <h3><svg class="icono" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Nuevo curso</h3>
       <form id="form-curso">
         <div class="form-grid">
           <div>
@@ -260,15 +395,51 @@
     <div id="lista-cursos"></div>
   </section>
 
+  <section data-panel="inscripciones">
+    <h1>Inscripciones</h1>
+    <p class="subtitulo">Inscribe manualmente a un alumno a un curso o dale de baja de una inscripción activa.</p>
+
+    <div class="form-caja">
+      <h3><svg class="icono" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Inscribir alumno a un curso</h3>
+      <form id="form-inscripcion">
+        <div class="form-grid">
+          <div>
+            <label for="insc-alumno">Alumno</label>
+            <select id="insc-alumno" required>
+              <option value="">Selecciona un alumno</option>
+            </select>
+          </div>
+          <div>
+            <label for="insc-curso">Curso</label>
+            <select id="insc-curso" required>
+              <option value="">Selecciona un curso</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" id="btn-crear-inscripcion">Inscribir</button>
+      </form>
+    </div>
+
+    <div id="lista-inscripciones"></div>
+  </section>
+
   <section data-panel="alumnos">
     <h1>Alumnos</h1>
     <p class="subtitulo">Todos los alumnos registrados y a qué cursos están inscritos.</p>
+    <div class="buscador">
+      <svg class="icono" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="buscar-alumnos" placeholder="Buscar por nombre o correo...">
+    </div>
     <div id="lista-alumnos"></div>
   </section>
 
   <section data-panel="maestros">
     <h1>Maestros</h1>
     <p class="subtitulo">Todos los maestros registrados y qué cursos imparten.</p>
+    <div class="buscador">
+      <svg class="icono" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="buscar-maestros" placeholder="Buscar por nombre o correo...">
+    </div>
     <div id="lista-maestros"></div>
   </section>
 
@@ -305,12 +476,15 @@
     let usuarios = [];
     let cursos = [];
     let inscripciones = [];
+    let filtroAlumnos = "";
+    let filtroMaestros = "";
 
     // ===== Lista de espera =====
     function cargarListaEspera() {
       fetch(`${API_URL}/usuarios/lista-espera`)
         .then(r => r.json())
         .then(pendientes => {
+          document.getElementById("kpi-espera").textContent = pendientes.length;
           const contenedor = document.getElementById("lista-espera");
           if (pendientes.length === 0) {
             contenedor.innerHTML = '<div class="vacio">No hay nadie en lista de espera ahorita.</div>';
@@ -361,15 +535,27 @@
         usuarios = u;
         cursos = c;
         inscripciones = i;
+        pintarKpis();
         pintarSelectMaestros();
+        pintarSelectsInscripcion();
         pintarCursos();
+        pintarInscripciones();
         pintarAlumnos();
         pintarMaestros();
       }).catch(() => {
         document.getElementById("lista-cursos").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
+        document.getElementById("lista-inscripciones").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
         document.getElementById("lista-alumnos").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
         document.getElementById("lista-maestros").innerHTML = '<div class="vacio">No se pudo conectar con el servidor.</div>';
       });
+    }
+
+    function pintarKpis() {
+      const alumnosActivos = usuarios.filter(u => u.rol === "ALUMNO" && u.estado === "ACTIVO").length;
+      const maestros = usuarios.filter(u => u.rol === "MAESTRO").length;
+      document.getElementById("kpi-alumnos").textContent = alumnosActivos;
+      document.getElementById("kpi-maestros").textContent = maestros;
+      document.getElementById("kpi-cursos").textContent = cursos.length;
     }
 
     function pintarSelectMaestros() {
@@ -445,18 +631,103 @@
         });
     });
 
+    // ===== Inscripciones =====
+    function pintarSelectsInscripcion() {
+      const selectAlumno = document.getElementById("insc-alumno");
+      const alumnos = usuarios.filter(u => u.rol === "ALUMNO" && u.estado === "ACTIVO");
+      selectAlumno.innerHTML = '<option value="">Selecciona un alumno</option>' +
+        alumnos.map(a => `<option value="${a.id}">${a.nombreCompleto}</option>`).join("");
+
+      const selectCurso = document.getElementById("insc-curso");
+      selectCurso.innerHTML = '<option value="">Selecciona un curso</option>' +
+        cursos.map(c => `<option value="${c.id}">${c.nombre}</option>`).join("");
+    }
+
+    function pintarInscripciones() {
+      const contenedor = document.getElementById("lista-inscripciones");
+      const activas = inscripciones.filter(i => i.estado === "ACTIVA");
+      if (activas.length === 0) {
+        contenedor.innerHTML = '<div class="vacio">No hay inscripciones activas todavía.</div>';
+        return;
+      }
+      contenedor.innerHTML = activas.map(i => `
+        <div class="tarjeta" data-id="${i.id}">
+          <div class="fila-inscripcion">
+            <div class="datos">
+              <span class="principal">${i.alumno.nombreCompleto}</span>
+              <span class="secundario">${i.curso.nombre} <span class="badge ${i.curso.tipo}">${TIPO_LABEL[i.curso.tipo] || i.curso.tipo}</span></span>
+            </div>
+            <div class="acciones">
+              <span class="badge ${i.estado}">${ESTADO_INSC_LABEL[i.estado] || i.estado}</span>
+              <button class="btn-eliminar" data-id="${i.id}">Dar de baja</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      contenedor.querySelectorAll(".btn-eliminar").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (!confirm("¿Dar de baja esta inscripción?")) return;
+          fetch(`${API_URL}/inscripciones/${btn.dataset.id}`, { method: "DELETE" })
+            .then(r => {
+              if (!r.ok) throw new Error();
+              cargarTodo();
+            })
+            .catch(() => alert("No se pudo dar de baja la inscripción."));
+        });
+      });
+    }
+
+    document.getElementById("form-inscripcion").addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      const boton = document.getElementById("btn-crear-inscripcion");
+      const alumnoId = document.getElementById("insc-alumno").value;
+      const cursoId = document.getElementById("insc-curso").value;
+      if (!alumnoId || !cursoId) return;
+
+      boton.disabled = true;
+      boton.textContent = "Inscribiendo...";
+
+      fetch(`${API_URL}/inscripciones`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ alumno: { id: Number(alumnoId) }, curso: { id: Number(cursoId) } })
+      })
+        .then(r => {
+          if (!r.ok) throw new Error();
+          document.getElementById("form-inscripcion").reset();
+          cargarTodo();
+        })
+        .catch(() => alert("No se pudo inscribir al alumno. Verifica que no esté ya inscrito en este curso."))
+        .finally(() => {
+          boton.disabled = false;
+          boton.textContent = "Inscribir";
+        });
+    });
+
     // ===== Alumnos =====
+    document.getElementById("buscar-alumnos").addEventListener("input", (evento) => {
+      filtroAlumnos = evento.target.value.trim().toLowerCase();
+      pintarAlumnos();
+    });
+
     function pintarAlumnos() {
       const contenedor = document.getElementById("lista-alumnos");
-      const alumnos = usuarios.filter(u => u.rol === "ALUMNO");
+      let alumnos = usuarios.filter(u => u.rol === "ALUMNO");
+      if (filtroAlumnos) {
+        alumnos = alumnos.filter(a =>
+          a.nombreCompleto.toLowerCase().includes(filtroAlumnos) ||
+          a.email.toLowerCase().includes(filtroAlumnos)
+        );
+      }
       if (alumnos.length === 0) {
-        contenedor.innerHTML = '<div class="vacio">Todavía no hay alumnos registrados.</div>';
+        contenedor.innerHTML = `<div class="vacio">${filtroAlumnos ? "Ningún alumno coincide con la búsqueda." : "Todavía no hay alumnos registrados."}</div>`;
         return;
       }
       contenedor.innerHTML = alumnos.map(a => {
         const susInscripciones = inscripciones.filter(i => i.alumno.id === a.id);
         return `
-          <div class="tarjeta persona-card" data-id="${a.id}" style="display:block;">
+          <div class="tarjeta persona-card" data-id="${a.id}">
             <div class="persona-fila">
               <div class="info">
                 <span class="nombre">${a.nombreCompleto}</span>
@@ -487,17 +758,28 @@
     }
 
     // ===== Maestros =====
+    document.getElementById("buscar-maestros").addEventListener("input", (evento) => {
+      filtroMaestros = evento.target.value.trim().toLowerCase();
+      pintarMaestros();
+    });
+
     function pintarMaestros() {
       const contenedor = document.getElementById("lista-maestros");
-      const maestros = usuarios.filter(u => u.rol === "MAESTRO");
+      let maestros = usuarios.filter(u => u.rol === "MAESTRO");
+      if (filtroMaestros) {
+        maestros = maestros.filter(m =>
+          m.nombreCompleto.toLowerCase().includes(filtroMaestros) ||
+          m.email.toLowerCase().includes(filtroMaestros)
+        );
+      }
       if (maestros.length === 0) {
-        contenedor.innerHTML = '<div class="vacio">Todavía no hay maestros registrados.</div>';
+        contenedor.innerHTML = `<div class="vacio">${filtroMaestros ? "Ningún maestro coincide con la búsqueda." : "Todavía no hay maestros registrados."}</div>`;
         return;
       }
       contenedor.innerHTML = maestros.map(m => {
         const susCursos = cursos.filter(c => c.maestro && c.maestro.id === m.id);
         return `
-          <div class="tarjeta persona-card" data-id="${m.id}" style="display:block;">
+          <div class="tarjeta persona-card" data-id="${m.id}">
             <div class="persona-fila">
               <div class="info">
                 <span class="nombre">${m.nombreCompleto}</span>
